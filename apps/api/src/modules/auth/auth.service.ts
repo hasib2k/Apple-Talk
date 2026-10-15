@@ -8,7 +8,6 @@ import { ConfigService } from '@nestjs/config';
 import { createHash } from 'crypto';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../common/services/prisma.service';
-import * as geoip from 'geoip-lite';
 import type { GoogleProfile } from './strategies/google.strategy';
 
 const ADJECTIVES = [
@@ -75,7 +74,7 @@ export class AuthService {
     if (!user) {
       try {
         user = await this.prisma.user.create({
-          data: { deviceId, anonAlias: this.generateAlias(), interests: [] },
+          data: { deviceId, anonAlias: this.generateAlias() },
         });
       } catch (e: any) {
         // Race condition: another concurrent request just created this user
@@ -88,36 +87,6 @@ export class AuthService {
 
     if (user.isBanned) {
       throw new ConflictException('This device is banned');
-    }
-
-    // Auto-detect region from IP
-    if (clientIp) {
-      const cleanIp = clientIp.startsWith('::ffff:') ? clientIp.slice(7) : clientIp;
-      const isLocal = cleanIp === '127.0.0.1' || cleanIp === '::1' || cleanIp.startsWith('192.168.') || cleanIp.startsWith('10.');
-      let detectedRegion: string | null = isLocal ? 'BD' : null;
-
-      if (!isLocal) {
-        // Try ip-api.com first (more accurate, free)
-        try {
-          const res = await fetch(`http://ip-api.com/json/${cleanIp}?fields=countryCode,status`, { signal: AbortSignal.timeout(3000) });
-          const data = await res.json() as { status: string; countryCode: string };
-          if (data.status === 'success' && data.countryCode) {
-            detectedRegion = data.countryCode;
-          }
-        } catch {
-          // Fallback to local geoip-lite
-          const geo = geoip.lookup(cleanIp);
-          if (geo?.country) detectedRegion = geo.country;
-        }
-      }
-
-      if (detectedRegion) {
-        await this.prisma.user.update({
-          where: { id: user.id },
-          data: { region: detectedRegion },
-        });
-        user = { ...user, region: detectedRegion };
-      }
     }
 
     const tokens = this.generateTokenPair(user.id);
@@ -135,26 +104,10 @@ export class AuthService {
   }
 
   async deleteAccount(userId: string) {
-    // Delete in dependency order to avoid FK constraint violations
+    // Delete in dependency order to avoid FK constraint violations.
+    // MeetingParticipant.userId is SetNull on delete; meetings they host are removed.
     await this.prisma.session.deleteMany({ where: { userId } });
-    await this.prisma.notification.deleteMany({ where: { userId } });
-    await this.prisma.paymentRequest.deleteMany({ where: { userId } });
-    await this.prisma.sharedImage.deleteMany({
-      where: { call: { OR: [{ participantA: userId }, { participantB: userId }] } },
-    });
-    await this.prisma.call.deleteMany({
-      where: { OR: [{ participantA: userId }, { participantB: userId }] },
-    });
-    await this.prisma.friend.deleteMany({
-      where: { OR: [{ userId }, { friendId: userId }] },
-    });
-    await this.prisma.report.deleteMany({
-      where: { OR: [{ reporterId: userId }, { reportedId: userId }] },
-    });
-    await this.prisma.block.deleteMany({
-      where: { OR: [{ blockerId: userId }, { blockedId: userId }] },
-    });
-    await this.prisma.subscription.deleteMany({ where: { userId } });
+    await this.prisma.meeting.deleteMany({ where: { hostId: userId } });
     await this.prisma.user.delete({ where: { id: userId } });
   }
 
@@ -229,7 +182,6 @@ export class AuthService {
         email: email || null,
         isLinked: true,
         anonAlias: this.generateAlias(),
-        interests: [],
       },
     });
     const tokens = this.generateTokenPair(newUser.id);

@@ -1,23 +1,8 @@
-import { IsArray, IsIn, IsOptional, IsString, Length, MaxLength } from 'class-validator';
+import { IsOptional, IsString, Length } from 'class-validator';
 
 export class UpdateUserDto {
   @IsOptional()
   @IsString()
-  @Length(2, 30)
+  @Length(2, 60)
   anonAlias?: string;
-
-  @IsOptional()
-  @IsString()
-  @MaxLength(8)
-  region?: string;
-
-  @IsOptional()
-  @IsString()
-  @IsIn(['male', 'female'])
-  gender?: string;
-
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  interests?: string[];
 }

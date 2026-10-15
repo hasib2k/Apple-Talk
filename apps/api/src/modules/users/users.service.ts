@@ -17,41 +17,7 @@ export class UsersService {
       where: { id },
       data: {
         ...(dto.anonAlias && { anonAlias: dto.anonAlias }),
-        ...(dto.region !== undefined && { region: dto.region }),
-        ...(dto.gender !== undefined && { gender: dto.gender }),
-        ...(dto.interests && { interests: dto.interests }),
       },
     });
-  }
-
-  async getInterests() {
-    return this.prisma.interest.findMany({ orderBy: { label: 'asc' } });
-  }
-
-  async getCallHistory(userId: string, page = 1, limit = 20) {
-    const skip = (page - 1) * limit;
-    const [calls, total] = await Promise.all([
-      this.prisma.call.findMany({
-        where: {
-          OR: [{ participantA: userId }, { participantB: userId }],
-          endedAt: { not: null },
-        },
-        orderBy: { startedAt: 'desc' },
-        skip,
-        take: limit,
-        include: {
-          userA: { select: { id: true, anonAlias: true } },
-          userB: { select: { id: true, anonAlias: true } },
-        },
-      }),
-      this.prisma.call.count({
-        where: {
-          OR: [{ participantA: userId }, { participantB: userId }],
-          endedAt: { not: null },
-        },
-      }),
-    ]);
-
-    return { data: calls, total, page, limit };
   }
 }

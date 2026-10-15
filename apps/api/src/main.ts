@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { IoAdapter } from '@nestjs/platform-socket.io';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filters/http-exception.filter';
@@ -34,11 +33,9 @@ async function bootstrap() {
 
   app.useGlobalFilters(new GlobalExceptionFilter());
 
-  app.useWebSocketAdapter(new IoAdapter(app));
-
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
-  console.log(`MangoTalk API running on http://localhost:${port}/api/v1`);
+  console.log(`AppleTalk API running on http://localhost:${port}/api/v1`);
 }
 
 bootstrap();

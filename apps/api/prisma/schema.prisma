@@ -7,43 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id               String    @id @default(cuid())
-  deviceId         String    @unique @db.VarChar(64)
-  googleId         String?   @unique @db.VarChar(64)
-  email            String?   @unique @db.VarChar(255)
-  isLinked         Boolean   @default(false)
-  anonAlias        String    @db.VarChar(32)
-  region           String?   @db.VarChar(8)
-  gender           String?   @db.VarChar(8)
-  interests        Json      @default("[]")
-  isPremium        Boolean   @default(false)
-  premiumUntil     DateTime?
-  stripeCustomerId String?   @unique @db.VarChar(64)
-  isBanned         Boolean   @default(false)
-  banUntil         DateTime?
-  lastActiveAt     DateTime?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+// ─── Users & auth ────────────────────────────────────────────────────────────
 
-  sessions         Session[]
-  callsAsA         Call[]         @relation("CallParticipantA")
-  callsAsB         Call[]         @relation("CallParticipantB")
-  sentReports      Report[]       @relation("Reporter")
-  receivedReports  Report[]       @relation("Reported")
-  friendsAdded     Friend[]       @relation("UserFriends")
-  friendOf         Friend[]       @relation("FriendOfUser")
-  sharedImages     SharedImage[]
-  blocks           Block[]        @relation("Blocker")
-  blockedBy        Block[]        @relation("Blocked")
-  paymentRequests  PaymentRequest[]
-  notifications    Notification[]
-  posts            Post[]
-  postLikes        PostLike[]
-  postComments     PostComment[]
-  pushSubscriptions PushSubscription[]
-  sentMessages      ChatMessage[]      @relation("SentMessages")
-  receivedMessages  ChatMessage[]      @relation("ReceivedMessages")
+model User {
+  id           String    @id @default(cuid())
+  deviceId     String    @unique @db.VarChar(64) // anonymous device fingerprint
+  googleId     String?   @unique @db.VarChar(64)
+  email        String?   @unique @db.VarChar(255)
+  isLinked     Boolean   @default(false) // true = signed in with Google
+  anonAlias    String    @db.VarChar(60) // display name
+  isBanned     Boolean   @default(false)
+  banUntil     DateTime?
+  lastActiveAt DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  sessions              Session[]
+  meetingsHosted        Meeting[]            @relation("MeetingHost")
+  meetingParticipations MeetingParticipant[]
 }
 
 model Session {
@@ -54,164 +35,7 @@ model Session {
   expiresAt  DateTime
   createdAt  DateTime @default(now())
 
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-}
-
-model Call {
-  id           String    @id @default(cuid())
-  participantA String
-  participantB String
-  startedAt    DateTime  @default(now())
-  endedAt      DateTime?
-  durationSecs Int?
-  endReason    String?   @db.VarChar(32)
-  roomId       String    @unique @db.VarChar(64)
-
-  userA        User         @relation("CallParticipantA", fields: [participantA], references: [id])
-  userB        User         @relation("CallParticipantB", fields: [participantB], references: [id])
-  sharedImages SharedImage[]
-
-  @@index([participantA])
-  @@index([participantB])
-}
-
-model Friend {
-  id         String    @id @default(cuid())
-  userId     String
-  friendId   String
-  nickname   String?   @db.VarChar(32)
-  status     String    @default("pending") @db.VarChar(16)
-  addedAt    DateTime  @default(now())
-  lastCallAt DateTime?
-
-  user       User      @relation("UserFriends", fields: [userId], references: [id])
-  friend     User      @relation("FriendOfUser", fields: [friendId], references: [id])
-
-  @@unique([userId, friendId])
-  @@index([userId])
-}
-
-model SharedImage {
-  id               String    @id @default(cuid())
-  callId           String
-  senderId         String
-  s3Key            String    @db.VarChar(256)
-  moderationStatus String    @default("pending") @db.VarChar(16)
-  moderationScore  Float?
-  deliveredAt      DateTime?
-  createdAt        DateTime  @default(now())
-
-  call             Call      @relation(fields: [callId], references: [id])
-  sender           User      @relation(fields: [senderId], references: [id])
-}
-
-model Report {
-  id          String   @id @default(cuid())
-  reporterId  String
-  reportedId  String
-  callId      String?
-  reason      String   @db.VarChar(64)
-  description String?  @db.Text
-  status      String   @default("open") @db.VarChar(16)
-  createdAt   DateTime @default(now())
-
-  reporter    User     @relation("Reporter", fields: [reporterId], references: [id])
-  reported    User     @relation("Reported", fields: [reportedId], references: [id])
-
-  @@index([reportedId])
-  @@index([status])
-}
-
-model Block {
-  id        String   @id @default(cuid())
-  blockerId String
-  blockedId String
-  createdAt DateTime @default(now())
-
-  blocker   User     @relation("Blocker", fields: [blockerId], references: [id])
-  blocked   User     @relation("Blocked", fields: [blockedId], references: [id])
-
-  @@unique([blockerId, blockedId])
-  @@index([blockerId])
-}
-
-model Subscription {
-  id                   String   @id @default(cuid())
-  userId               String   @unique
-  stripeSubscriptionId String   @unique @db.VarChar(64)
-  status               String   @db.VarChar(32)
-  currentPeriodEnd     DateTime
-  plan                 String   @default("premium") @db.VarChar(32)
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
-}
-
-model Interest {
-  id    String  @id @default(cuid())
-  slug  String  @unique @db.VarChar(32)
-  label String  @db.VarChar(64)
-  emoji String? @db.VarChar(8)
-}
-
-model PaymentRequest {
-  id            String    @id @default(cuid())
-  userId        String
-  method        String    @db.VarChar(16)   // 'bkash' | 'nagad'
-  transactionId String    @db.VarChar(64)
-  amount        Int                         // 50 or 100
-  plan          String    @db.VarChar(16)   // 'weekly' | 'monthly'
-  status        String    @default("pending") @db.VarChar(16) // 'pending' | 'approved' | 'rejected'
-  reviewNote    String?   @db.VarChar(255)
-  createdAt     DateTime  @default(now())
-  reviewedAt    DateTime?
-
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([status])
-}
-
-model Notification {
-  id        String   @id @default(cuid())
-  userId    String
-  type      String   @db.VarChar(64)   // 'subscription_approved' | 'subscription_rejected'
-  title     String   @db.VarChar(128)
-  body      String   @db.VarChar(512)
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now())
-
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([userId, read])
-}
-
-model ChatMessage {
-  id         String   @id @default(cuid())
-  fromUserId String
-  toUserId   String
-  text       String   @db.VarChar(2000)
-  createdAt  DateTime @default(now())
-  read       Boolean  @default(false)
-
-  from       User     @relation("SentMessages", fields: [fromUserId], references: [id], onDelete: Cascade)
-  to         User     @relation("ReceivedMessages", fields: [toUserId], references: [id], onDelete: Cascade)
-
-  @@index([fromUserId, toUserId])
-  @@index([toUserId, read])
-}
-
-model PushSubscription {
-  id        String   @id @default(cuid())
-  userId    String
-  endpoint  String   @unique @db.VarChar(512)
-  p256dh    String   @db.VarChar(256)
-  auth      String   @db.VarChar(64)
-  createdAt DateTime @default(now())
-
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -226,43 +50,40 @@ model IpBan {
   @@index([ip])
 }
 
-model Post {
-  id        String        @id @default(cuid())
-  authorId  String
-  content   String        @db.VarChar(1000)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
+// ─── Meetings (Google-Meet-style group audio) ────────────────────────────────
 
-  author    User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  likes     PostLike[]
-  comments  PostComment[]
+model Meeting {
+  id              String    @id @default(cuid())
+  code            String    @unique @db.VarChar(32) // shareable link slug
+  title           String    @db.VarChar(120)
+  hostId          String
+  status          String    @default("live") @db.VarChar(16) // 'live' | 'ended'
+  audienceCanAsk  Boolean   @default(true) // raise-hand allowed
+  everyoneSpeaks  Boolean   @default(false) // small-meeting mode: all join as speaker
+  chatEnabled     Boolean   @default(false) // host-gated: chat closed until host opens it
+  maxParticipants Int       @default(5000)
+  startedAt       DateTime  @default(now())
+  endedAt         DateTime?
 
-  @@index([authorId])
-  @@index([createdAt(sort: Desc)])
+  host         User                 @relation("MeetingHost", fields: [hostId], references: [id])
+  participants MeetingParticipant[]
+
+  @@index([hostId])
+  @@index([status])
 }
 
-model PostLike {
-  id        String   @id @default(cuid())
-  postId    String
-  userId    String
-  createdAt DateTime @default(now())
+model MeetingParticipant {
+  id          String    @id @default(cuid())
+  meetingId   String
+  userId      String? // null for pure-guest (dev only)
+  displayName String    @db.VarChar(60)
+  role        String    @default("audience") @db.VarChar(16) // 'host' | 'speaker' | 'audience'
+  joinedAt    DateTime  @default(now())
+  leftAt      DateTime?
 
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  meeting Meeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  user    User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
-  @@unique([postId, userId])
-  @@index([postId])
-}
-
-model PostComment {
-  id        String   @id @default(cuid())
-  postId    String
-  authorId  String
-  content   String   @db.VarChar(500)
-  createdAt DateTime @default(now())
-
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-
-  @@index([postId])
+  @@index([meetingId])
+  @@index([userId])
 }

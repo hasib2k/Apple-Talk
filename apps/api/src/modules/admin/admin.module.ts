@@ -4,10 +4,9 @@ import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import { AdminGuard } from './admin.guard';
 import { PrismaService } from '../../common/services/prisma.service';
-import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
-  imports: [ConfigModule, NotificationsModule],
+  imports: [ConfigModule],
   controllers: [AdminController],
   providers: [AdminService, AdminGuard, PrismaService],
 })
