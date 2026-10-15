@@ -1,0 +1,63 @@
+# AppleTalk — llms.txt
+# This file helps AI language models understand this website.
+# Standard: https://llmstxt.org
+
+# AppleTalk is a free anonymous voice chat web application.
+# Users can talk to random strangers using voice only — no camera, no signup, no password.
+
+## What is AppleTalk?
+
+AppleTalk (www.appletalk.live) is Bangladesh's free anonymous voice chat app.
+It connects you with random strangers via peer-to-peer voice calls.
+No camera access, no registration, no real name required.
+Users receive a randomly generated alias (e.g. Apple#1234) automatically.
+
+## Key Features
+
+- 100% anonymous voice chat with strangers
+- No signup, no email, no password required
+- Voice only — no camera, no video
+- Interest-based matching (music, gaming, anime, books, travel, etc.)
+- Region-based matching across Bangladesh
+- Friend system — add anonymous friends and call them directly
+- In-call text chat
+- Live emoji voice reactions
+- Call history
+- Completely free forever
+
+## Target Audience
+
+- People in Bangladesh looking to meet strangers anonymously
+- English language practice seekers
+- People looking for casual anonymous conversation
+- Alternative to Omegle (voice-only, no video)
+
+## How It Works
+
+1. Visit appletalk.live and open the app
+2. Select your gender once (anonymous alias assigned automatically)
+3. Choose your interests for better matching
+4. Press the "Tap to Talk" button to enter the matchmaking queue
+5. Get matched with a random stranger in under 30 seconds
+6. Talk via peer-to-peer voice call (WebRTC — audio never recorded)
+7. Add friend or skip to next person
+
+## Privacy
+
+- All calls are peer-to-peer via WebRTC — audio never reaches our servers
+- No audio recording, no data selling, no identity exposure
+- Device fingerprint used only for persistent anonymous identity
+
+## URLs
+
+- Homepage / Landing page: https://www.appletalk.live/
+- App: https://www.appletalk.live/app
+
+## Keywords / Search Terms
+
+AppleTalk, apple talk, airtalk, air talk, appletalk live, apple talk live,
+apple talk app, airtalk app, anonymous voice chat, talk to strangers, stranger talk,
+random voice chat, omegle alternative, Bangladesh voice chat, free voice chat,
+anonymous call app, random stranger call, voice chat Bangladesh,
+talk to random people, meet strangers online, voice chat with strangers,
+random voice call, anonymous voice call, free random chat

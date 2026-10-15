@@ -1,0 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes barPulse {
+  from { transform: scaleY(0.3); }
+  to   { transform: scaleY(1); }
+}
+
+@keyframes mtring {
+  0%   { transform: scale(0.82); opacity: 0.55; }
+  100% { transform: scale(1.55); opacity: 0; }
+}
+
+@keyframes floatUp {
+  0%   { transform: translateY(0) scale(1); opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(-180px) scale(1.6); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.10) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@layer base {
+  :root {
+    --color-primary: 255 122 24;
+    --color-background: 255 251 235;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background: #05140d;
+    height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body {
+    @apply text-gray-900 font-sans antialiased;
+    height: 100dvh;
+    overflow: hidden;
+    background: #05140d;
+    overscroll-behavior: none;
+  }
+}
+
+/* Prevent iOS Safari from zooming in when input is focused.
+   iOS zooms when font-size < 16px — this ensures minimum 16px. */
+@supports (-webkit-touch-callout: none) {
+  input, textarea, select {
+    font-size: max(16px, 1em) !important;
+  }
+}
+
+/* iOS safe area padding */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.pb-safe-or-4 {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Mobile bottom nav clearance — apply to any page scroll container so content
+   doesn't hide behind the floating bottom nav on mobile */
+@media (max-width: 1023px) {
+  .mob-nav-pb {
+    padding-bottom: max(88px, calc(80px + env(safe-area-inset-bottom, 0px)));
+  }
+}
+
+/* Global scrollbar — matches dark green theme (desktop only) */
+@media (min-width: 1024px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1f5c3d;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2d7a55;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #1f5c3d transparent;
+  }
+}
+
+/* Hide all scrollbars on mobile */
+@media (max-width: 1023px) {
+  *::-webkit-scrollbar {
+    display: none !important;
+  }
+  * {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+}
+
+/* Homepage scroll — always hidden */
+.home-scroll::-webkit-scrollbar {
+  display: none;
+}
+.home-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom scrollbar */
+.scrollbar-chat::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-chat::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-chat::-webkit-scrollbar-thumb {
+  background: #1f5c3d;
+  border-radius: 9999px;
+}
+.scrollbar-chat::-webkit-scrollbar-thumb:hover {
+  background: #4a9f78;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-mango-500 hover:bg-mango-600 active:bg-mango-700 text-white font-semibold
+           px-6 py-3 rounded-2xl transition-all duration-150 shadow-sm
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent hover:bg-mango-50 text-mango-600 font-medium
+           px-6 py-3 rounded-2xl transition-all duration-150
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .card {
+    @apply bg-white rounded-3xl shadow-sm border border-mango-200 p-6;
+  }
+
+  .interest-tag {
+    @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium
+           border-2 border-mango-500 bg-mango-50 text-mango-700
+           cursor-pointer select-none transition-all duration-150;
+  }
+
+  .interest-tag.selected {
+    @apply border-mango-500 bg-mango-500 text-white;
+  }
+}

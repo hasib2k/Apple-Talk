@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0a2618"/>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <defs>
+    <radialGradient id="bg" cx="30%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0d3320"/>
+      <stop offset="100%" stop-color="#061410"/>
+    </radialGradient>
+    <radialGradient id="orb" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4ade80" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Glow rings -->
+  <circle cx="280" cy="315" r="200" fill="url(#glow)"/>
+  <circle cx="280" cy="315" r="160" stroke="#4ade80" stroke-opacity="0.12" stroke-width="2" fill="none"/>
+  <circle cx="280" cy="315" r="130" stroke="#4ade80" stroke-opacity="0.18" stroke-width="2" fill="none"/>
+
+  <!-- Mango orb -->
+  <circle cx="280" cy="315" r="105" fill="url(#orb)"/>
+
+  <!-- Mic icon -->
+  <rect x="260" y="268" width="40" height="60" rx="20" fill="white"/>
+  <path d="M248 330 Q248 362 280 362 Q312 362 312 330" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <line x1="280" y1="362" x2="280" y2="378" stroke="white" stroke-width="6" stroke-linecap="round"/>
+  <line x1="262" y1="378" x2="298" y2="378" stroke="white" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Text: AppleTalk -->
+  <text x="440" y="285" font-family="Georgia, serif" font-size="90" font-weight="700" fill="white">AppleTalk</text>
+
+  <!-- Tagline -->
+  <text x="444" y="345" font-family="Arial, sans-serif" font-size="36" fill="#86efac" letter-spacing="1">Voice chat with strangers. Anonymously.</text>
+
+  <!-- Divider -->
+  <rect x="444" y="375" width="80" height="3" rx="2" fill="#4ade80"/>
+
+  <!-- Sub text -->
+  <text x="444" y="420" font-family="Arial, sans-serif" font-size="28" fill="#9ccc65" opacity="0.8">No camera. No signup. Just talk.</text>
+
+  <!-- appletalk.live -->
+  <text x="444" y="480" font-family="Arial, sans-serif" font-size="26" fill="#4ade80" opacity="0.9">appletalk.live</text>
+</svg>
