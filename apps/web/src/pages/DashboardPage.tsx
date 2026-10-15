@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
 import { meetingsApi, MyMeeting } from '../lib/meetings';
 import { CLAY } from '../lib/clay';
+import { Plus, Link2, Play, Mic } from 'lucide-react';
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -90,13 +91,13 @@ export default function DashboardPage() {
           </div>
 
           <div ref={menuRef} style={{ position: 'relative' }}>
-            <button onClick={() => setMenuOpen((v) => !v)} disabled={busy} style={s.newBtn}>
-              ＋ New
+            <button onClick={() => setMenuOpen((v) => !v)} disabled={busy} style={{ ...s.newBtn, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+              <Plus size={16} strokeWidth={2.5} /> New
             </button>
             {menuOpen && (
               <div style={s.menu}>
-                <button onClick={createForLater} style={s.menuItem}>🔗 Create a meeting for later</button>
-                <button onClick={startInstant} style={s.menuItem}>▶️ Start an instant meeting</button>
+                <button onClick={createForLater} style={{ ...s.menuItem, display: 'flex', alignItems: 'center', gap: 10 }}><Link2 size={16} color={CLAY.accent} /> Create a meeting for later</button>
+                <button onClick={startInstant} style={{ ...s.menuItem, display: 'flex', alignItems: 'center', gap: 10 }}><Play size={16} color={CLAY.accent} /> Start an instant meeting</button>
               </div>
             )}
           </div>
@@ -109,14 +110,16 @@ export default function DashboardPage() {
 
       {/* ── Center ── */}
       <main style={s.main}>
-        <div style={{ fontSize: 56, marginBottom: 8 }}>🎙️</div>
+        <div style={{ width: 88, height: 88, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14, background: CLAY.surface, boxShadow: CLAY.raised }}>
+          <Mic size={40} color={CLAY.accent} />
+        </div>
         <h1 style={{ fontSize: 30, fontWeight: 800, textAlign: 'center' }}>Audio meetings for everyone</h1>
         <p style={{ color: '#8fcea8', marginTop: 8, textAlign: 'center', maxWidth: 440 }}>
           Create a meeting link and share it — thousands can join and listen, speakers talk.
         </p>
 
         <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
-          <button onClick={startInstant} disabled={busy} style={s.ctaPrimary}>＋ New meeting</button>
+          <button onClick={startInstant} disabled={busy} style={{ ...s.ctaPrimary, display: 'inline-flex', alignItems: 'center', gap: 8 }}><Plus size={18} strokeWidth={2.5} /> New meeting</button>
         </div>
 
         {/* Recent meetings */}

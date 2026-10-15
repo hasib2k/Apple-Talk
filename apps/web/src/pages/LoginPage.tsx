@@ -4,6 +4,7 @@ import { useAuthStore } from '../store/auth.store';
 import { api } from '../lib/api';
 import { getDeviceFingerprint } from '../lib/fingerprint';
 import { usePwaInstall } from '../hooks/usePwaInstall';
+import { Link2, Mic, Users, Hand, SlidersHorizontal, User, Download, Unlock } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL || '';
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
@@ -106,7 +107,7 @@ export default function LoginPage() {
           onClick={triggerInstall}
           className="absolute top-4 right-4 z-10 flex items-center gap-2 px-4 py-2 rounded-xl bg-white/8 border border-white/12 text-leaf-300 text-xs font-semibold hover:border-white/25 hover:text-white transition-all"
         >
-          📲 Install App
+<Download size={14} /> Install App
         </button>
       )}
 
@@ -124,14 +125,14 @@ export default function LoginPage() {
           </div>
           <div className="flex flex-col gap-3.5 text-left w-full">
             {[
-              { icon: '🔗', text: 'Create a meeting link in one tap' },
-              { icon: '🎙️', text: 'Audio-only — no camera, ever' },
-              { icon: '👥', text: 'Thousands can join and listen' },
-              { icon: '✋', text: 'Raise your hand to speak' },
-              { icon: '🎛️', text: 'Host controls — mute, promote, remove' },
-            ].map(({ icon, text }) => (
+              { Icon: Link2, text: 'Create a meeting link in one tap' },
+              { Icon: Mic, text: 'Audio-only — no camera, ever' },
+              { Icon: Users, text: 'Thousands can join and listen' },
+              { Icon: Hand, text: 'Raise your hand to speak' },
+              { Icon: SlidersHorizontal, text: 'Host controls — mute, promote, remove' },
+            ].map(({ Icon, text }) => (
               <div key={text} className="flex items-center gap-3">
-                <span className="text-xl shrink-0">{icon}</span>
+                <span className="shrink-0 text-mango-400"><Icon size={18} /></span>
                 <span className="text-leaf-300 text-sm font-medium">{text}</span>
               </div>
             ))}
@@ -181,7 +182,7 @@ export default function LoginPage() {
               </>
             ) : (
               <>
-                <span className="text-base">👤</span>
+                <User size={16} />
                 Continue without login
               </>
             )}
@@ -190,7 +191,7 @@ export default function LoginPage() {
           {/* Feature comparison hint */}
           <div className="mt-1 rounded-2xl bg-white/5 border border-white/8 px-4 py-3 flex flex-col gap-2.5 text-xs">
             <div className="flex items-start gap-2">
-              <span className="mt-0.5 text-mango-400">🔓</span>
+              <span className="mt-0.5 text-mango-400"><Unlock size={14} /></span>
               <div>
                 <span className="text-white font-semibold">With Google login</span>
                 <div className="text-white/60 mt-0.5">Create & host meetings · Full host controls · Saved meeting history</div>
@@ -198,7 +199,7 @@ export default function LoginPage() {
             </div>
             <div className="w-full h-px bg-white/8" />
             <div className="flex items-start gap-2">
-              <span className="mt-0.5 text-leaf-400">👤</span>
+              <span className="mt-0.5 text-leaf-400"><User size={14} /></span>
               <div>
                 <span className="text-white/70 font-semibold">Without login (guest)</span>
                 <div className="text-white/40 mt-0.5">Join a meeting via link · Listen & raise hand to speak</div>

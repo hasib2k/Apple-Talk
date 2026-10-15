@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import {
   Mic, Shield, Zap, Users, MessageSquare, Hand,
-  Link2, Crown, ChevronDown, Lock, Video, ArrowUpRight,
+  Link2, Crown, ChevronDown, Lock, Video, ArrowUpRight, Download,
 } from 'lucide-react';
 import { useState } from 'react';
 import { usePwaInstall } from '../hooks/usePwaInstall';
@@ -75,7 +75,7 @@ export default function LandingPage() {
             </button>
             {canInstall && (
               <button onClick={triggerInstall} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 99, padding: '14px 24px', fontSize: 14, fontWeight: 600, color: '#9dbfaa', cursor: 'pointer' }}>
-                📲 Install App
+                <Download size={16} /> Install App
               </button>
             )}
           </div>

@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AlertTriangle } from 'lucide-react';
 import { useAuth } from './hooks/useAuth';
 import { useAuthStore } from './store/auth.store';
 import { InAppBrowserOverlay } from './components/InAppBrowserOverlay';
@@ -28,7 +29,7 @@ function AuthenticatedGate() {
   if (error) {
     return (
       <div className="h-dvh flex flex-col items-center justify-center gap-4 px-6" style={{ background: '#0b2417' }}>
-        <span style={{ fontSize: 48 }}>⚠️</span>
+        <AlertTriangle size={44} color="#f87171" />
         <p style={{ color: '#fff', fontWeight: 600 }}>Could not connect to server</p>
         <p style={{ color: '#8fcea8', fontSize: 14 }}>{error}</p>
         <button onClick={initialize} style={{ marginTop: 8, background: '#84cc16', color: '#1a2e05', fontWeight: 600, padding: '12px 24px', borderRadius: 999, border: 'none', cursor: 'pointer' }}>

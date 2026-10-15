@@ -4,9 +4,22 @@ import { useAuthStore } from '../store/auth.store';
 import { useMeetingStore } from '../store/meeting.store';
 import { useMeetingRoom, ParticipantInfo } from '../hooks/useMeetingRoom';
 import { CLAY } from '../lib/clay';
+import {
+  Mic, MicOff, Crown, Hand, Smile, MessageSquare, LogOut, X,
+  AlertTriangle, DoorOpen, PhoneOff, ThumbsUp, Heart, Laugh, PartyPopper, Flame, Star,
+} from 'lucide-react';
+
+const REACTIONS: { key: string; Icon: typeof ThumbsUp }[] = [
+  { key: 'thumbsup', Icon: ThumbsUp },
+  { key: 'heart', Icon: Heart },
+  { key: 'laugh', Icon: Laugh },
+  { key: 'party', Icon: PartyPopper },
+  { key: 'flame', Icon: Flame },
+  { key: 'star', Icon: Star },
+];
+const REACTION_MAP: Record<string, typeof ThumbsUp> = Object.fromEntries(REACTIONS.map((r) => [r.key, r.Icon]));
 
 const AUDIENCE_RENDER_CAP = 60; // never render thousands of tiles
-const REACTION_EMOJIS = ['👏', '❤️', '😂', '😮', '👍', '🎉'];
 
 function initials(name: string) {
   return name.replace(/#.*$/, '').trim().charAt(0).toUpperCase() || 'G';
@@ -29,22 +42,22 @@ function Tile({
     <div style={{ ...t.tile, boxShadow: speaking ? `0 0 0 3px ${CLAY.accent}, ${CLAY.raisedSm}` : CLAY.raisedSm }}>
       <div style={{ ...t.avatar, boxShadow: speaking ? '0 0 0 4px rgba(163,230,53,0.4), inset 3px 3px 6px rgba(255,255,255,0.12), inset -4px -4px 8px rgba(0,0,0,0.4)' : 'inset 3px 3px 6px rgba(255,255,255,0.12), inset -4px -4px 8px rgba(0,0,0,0.4)' }}>
         {initials(p.name)}
-        {p.role === 'host' && <span style={t.corner}>👑</span>}
-        {handRaised && <span style={{ ...t.corner, left: -6, right: 'auto' }}>✋</span>}
+        {p.role === 'host' && <span style={t.corner}><Crown size={15} color="#f59e0b" fill="#f59e0b" /></span>}
+        {handRaised && <span style={{ ...t.corner, left: -6, right: 'auto' }}><Hand size={15} color="#fbbf24" /></span>}
       </div>
       <div style={t.nameRow}>
         <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 90 }}>
           {p.name}{p.isLocal ? ' (you)' : ''}
         </span>
         {p.role !== 'audience' && (p.isMuted
-          ? <span style={{ color: '#ef4444' }}>🔇</span>
-          : <span style={{ color: speaking ? '#a3e635' : '#6f9c81' }}>🎙️</span>)}
+          ? <MicOff size={14} color="#ef4444" />
+          : <Mic size={14} color={speaking ? '#a3e635' : '#6f9c81'} />)}
       </div>
 
       {showHostControls && (
         <div style={t.hostCtrls}>
           {p.role === 'audience'
-            ? <button onClick={() => onPromote(p.identity)} style={{ ...t.hc, color: '#a3e635' }}>{handRaised ? 'Allow ✋' : 'Promote'}</button>
+            ? <button onClick={() => onPromote(p.identity)} style={{ ...t.hc, color: '#a3e635' }}>{handRaised ? 'Allow' : 'Promote'}</button>
             : <>
                 <button onClick={() => onMute(p.identity)} style={t.hc}>Mute</button>
                 <button onClick={() => onDemote(p.identity)} style={t.hc}>Listener</button>
@@ -102,10 +115,10 @@ export default function RoomPage() {
     return (<div style={r.center}><img src="/logo.png" alt="" style={{ width: 72, height: 72 }} className="animate-pulse" /><p style={{ color: '#8fcea8', marginTop: 14 }}>Joining meeting…</p></div>);
   }
   if (status === 'error') {
-    return (<div style={r.center}><div style={{ fontSize: 40 }}>⚠️</div><p style={{ fontWeight: 700, marginTop: 10 }}>Could not join</p><p style={{ color: '#8fcea8', fontSize: 14, marginTop: 4 }}>{error}</p><button onClick={() => navigate('/')} style={r.ghost}>Back to home</button></div>);
+    return (<div style={r.center}><AlertTriangle size={40} color="#f87171" /><p style={{ fontWeight: 700, marginTop: 10 }}>Could not join</p><p style={{ color: '#8fcea8', fontSize: 14, marginTop: 4 }}>{error}</p><button onClick={() => navigate('/')} style={r.ghost}>Back to home</button></div>);
   }
   if (status === 'disconnected') {
-    return (<div style={r.center}><div style={{ fontSize: 40 }}>👋</div><p style={{ fontWeight: 700, marginTop: 10 }}>You left the meeting</p><button onClick={() => navigate('/')} style={r.ghost}>Back to home</button></div>);
+    return (<div style={r.center}><DoorOpen size={40} color={CLAY.muted} /><p style={{ fontWeight: 700, marginTop: 10 }}>You left the meeting</p><button onClick={() => navigate('/')} style={r.ghost}>Back to home</button></div>);
   }
 
   return (
@@ -141,8 +154,9 @@ export default function RoomPage() {
 
           {audience.length > 0 && (
             <section style={{ marginTop: 28 }}>
-              <p style={r.sectionLabel}>
-                Audience · {audience.length}{raisedCount > 0 && <span style={{ color: '#a3e635' }}> · ✋ {raisedCount} raised</span>}
+              <p style={{ ...r.sectionLabel, display: 'flex', alignItems: 'center', gap: 6 }}>
+                Audience · {audience.length}
+                {raisedCount > 0 && <span style={{ color: '#a3e635', display: 'inline-flex', alignItems: 'center', gap: 4 }}>· <Hand size={13} /> {raisedCount} raised</span>}
               </p>
               <div style={r.grid}>
                 {shownAudience.map((p) => (
@@ -164,7 +178,7 @@ export default function RoomPage() {
           <aside style={r.chatPanel}>
             <div style={r.chatHeader}>
               <span style={{ fontWeight: 700 }}>Chat</span>
-              <button onClick={() => setChatOpen(false)} style={r.xBtn}>✕</button>
+              <button onClick={() => setChatOpen(false)} style={r.xBtn}><X size={16} /></button>
             </div>
             <div style={r.chatBody}>
               {!chatEnabled && !isHost && <p style={{ color: '#6f9c81', fontSize: 13, textAlign: 'center', marginTop: 20 }}>Chat is turned off by the host.</p>}
@@ -188,40 +202,41 @@ export default function RoomPage() {
 
       {/* Floating reactions */}
       <div style={r.reactionLayer}>
-        {reactions.map((rx) => (
-          <div key={rx.id} style={r.floatReaction}>{rx.emoji}</div>
-        ))}
+        {reactions.map((rx) => {
+          const Icon = REACTION_MAP[rx.key] ?? ThumbsUp;
+          return <div key={rx.id} style={r.floatReaction}><Icon size={36} color={CLAY.accent} /></div>;
+        })}
       </div>
 
       {/* Control bar */}
       <footer style={r.controls}>
         {canSpeak ? (
-          <button onClick={toggleMute} style={{ ...r.ctrlBtn, background: micEnabled ? '#16a34a' : '#ef4444' }}>
-            {micEnabled ? '🎙️ Mute' : '🔇 Unmute'}
+          <button onClick={toggleMute} style={{ ...r.ctrlBtn, display: 'inline-flex', alignItems: 'center', gap: 8, background: micEnabled ? '#16a34a' : '#ef4444' }}>
+            {micEnabled ? <Mic size={16} /> : <MicOff size={16} />}{micEnabled ? 'Mute' : 'Unmute'}
           </button>
         ) : (
-          <button onClick={() => raiseHand(!handRaised)} style={{ ...r.ctrlBtn, background: handRaised ? 'linear-gradient(145deg,#fbbf24,#d97706)' : CLAY.surfaceAlt, color: handRaised ? '#3a2606' : CLAY.text }}>
-            {handRaised ? '✋ Lower hand' : '✋ Raise hand'}
+          <button onClick={() => raiseHand(!handRaised)} style={{ ...r.ctrlBtn, display: 'inline-flex', alignItems: 'center', gap: 8, background: handRaised ? 'linear-gradient(145deg,#fbbf24,#d97706)' : CLAY.surfaceAlt, color: handRaised ? '#3a2606' : CLAY.text }}>
+            <Hand size={16} />{handRaised ? 'Lower hand' : 'Raise hand'}
           </button>
         )}
 
         <div style={{ position: 'relative' }}>
-          <button onClick={() => setReactOpen((v) => !v)} style={{ ...r.ctrlBtn, background: CLAY.surfaceAlt, color: CLAY.text }}>😀 React</button>
+          <button onClick={() => setReactOpen((v) => !v)} style={{ ...r.ctrlBtn, display: 'inline-flex', alignItems: 'center', gap: 8, background: CLAY.surfaceAlt, color: CLAY.text }}><Smile size={16} /> React</button>
           {reactOpen && (
             <div style={r.reactPopover}>
-              {REACTION_EMOJIS.map((e) => (
-                <button key={e} onClick={() => { sendReaction(e); setReactOpen(false); }} style={r.reactBtn}>{e}</button>
+              {REACTIONS.map(({ key, Icon }) => (
+                <button key={key} onClick={() => { sendReaction(key); setReactOpen(false); }} style={r.reactBtn}><Icon size={22} color={CLAY.accent} /></button>
               ))}
             </div>
           )}
         </div>
 
-        <button onClick={() => setChatOpen((v) => !v)} style={{ ...r.ctrlBtn, background: CLAY.surfaceAlt, color: CLAY.text }}>
-          💬 Chat{messages.length > 0 ? ` (${messages.length})` : ''}
+        <button onClick={() => setChatOpen((v) => !v)} style={{ ...r.ctrlBtn, display: 'inline-flex', alignItems: 'center', gap: 8, background: CLAY.surfaceAlt, color: CLAY.text }}>
+          <MessageSquare size={16} /> Chat{messages.length > 0 ? ` (${messages.length})` : ''}
         </button>
 
-        {isHost && <button onClick={handleEnd} style={{ ...r.ctrlBtn, background: 'linear-gradient(145deg,#b91c1c,#7f1d1d)' }}>End for all</button>}
-        <button onClick={handleLeave} style={{ ...r.ctrlBtn, background: CLAY.dangerGrad }}>Leave</button>
+        {isHost && <button onClick={handleEnd} style={{ ...r.ctrlBtn, display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(145deg,#b91c1c,#7f1d1d)' }}><PhoneOff size={16} /> End for all</button>}
+        <button onClick={handleLeave} style={{ ...r.ctrlBtn, display: 'inline-flex', alignItems: 'center', gap: 8, background: CLAY.dangerGrad }}><LogOut size={16} /> Leave</button>
       </footer>
     </div>
   );

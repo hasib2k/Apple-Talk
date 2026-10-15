@@ -1,6 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { CLAY } from '../lib/clay';
+import { Lock, LayoutDashboard, Users as UsersIcon, Mic, Ban, LogOut, BadgeCheck, User as UserIcon, X } from 'lucide-react';
+
+function TypeBadge({ google, label }: { google: boolean; label: string }) {
+  return (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+      {google ? <BadgeCheck size={14} color="#60a5fa" /> : <UserIcon size={14} color="#fbbf24" />} {label}
+    </span>
+  );
+}
 
 const BASE = (import.meta.env.VITE_API_URL || '') + '/api/v1/admin';
 
@@ -58,7 +67,7 @@ export default function AdminPage() {
     return (
       <div style={s.loginWrap}>
         <div style={s.loginCard}>
-          <div style={{ fontSize: 30, marginBottom: 6 }}>🔐</div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}><Lock size={28} color={CLAY.accent} /></div>
           <h1 style={{ fontSize: 20, fontWeight: 800, marginBottom: 16 }}>AppleTalk Admin</h1>
           <input type="password" value={key} onChange={(e) => setKey(e.target.value)} placeholder="Admin key"
             onKeyDown={(e) => e.key === 'Enter' && login()} style={s.input} />
@@ -77,11 +86,11 @@ export default function AdminPage() {
           <img src="/logo.png" alt="" style={{ width: 30, height: 30, objectFit: 'contain' }} />
           <span style={{ fontWeight: 800 }}>Admin</span>
         </div>
-        {([['overview', '📊 Overview'], ['users', '👥 Users'], ['meetings', '🎙️ Meetings'], ['bans', '🚫 IP Bans']] as [Tab, string][]).map(([k, label]) => (
-          <button key={k} onClick={() => setTab(k)} style={{ ...s.navItem, ...(tab === k ? s.navItemActive : {}) }}>{label}</button>
+        {([['overview', 'Overview', LayoutDashboard], ['users', 'Users', UsersIcon], ['meetings', 'Meetings', Mic], ['bans', 'IP Bans', Ban]] as [Tab, string, typeof LayoutDashboard][]).map(([k, label, Icon]) => (
+          <button key={k} onClick={() => setTab(k)} style={{ ...s.navItem, display: 'flex', alignItems: 'center', gap: 10, ...(tab === k ? s.navItemActive : {}) }}><Icon size={16} /> {label}</button>
         ))}
         <div style={{ flex: 1 }} />
-        <button onClick={logout} style={{ ...s.navItem, color: '#f87171' }}>↩ Sign out</button>
+        <button onClick={logout} style={{ ...s.navItem, display: 'flex', alignItems: 'center', gap: 10, color: '#f87171' }}><LogOut size={16} /> Sign out</button>
       </aside>
 
       {/* Content */}
@@ -175,7 +184,7 @@ function Users({ headers }: { headers: () => Record<string, string> }) {
             {users.map((u) => (
               <tr key={u.id} style={s.tr}>
                 <td style={s.td}>{u.anonAlias}</td>
-                <td style={s.td}>{u.isLinked ? '🔵 Google' : '👤 Guest'}</td>
+                <td style={s.td}><TypeBadge google={u.isLinked} label={u.isLinked ? 'Google' : 'Guest'} /></td>
                 <td style={s.td}>{u.email ?? '—'}</td>
                 <td style={s.td}>{u._count.meetingsHosted}h / {u._count.meetingParticipations}j</td>
                 <td style={s.td}>{fmt(u.createdAt)}</td>
@@ -247,7 +256,9 @@ function Meetings({ headers }: { headers: () => Record<string, string> }) {
                 <td style={s.td}>{m.title}</td>
                 <td style={s.td}><code>{m.code}</code></td>
                 <td style={s.td}>{m.host.anonAlias}</td>
-                <td style={s.td}>{m.status === 'live' ? <span style={{ color: '#4ade80' }}>● live</span> : <span style={{ color: '#6f9c81' }}>ended</span>}</td>
+                <td style={s.td}>{m.status === 'live'
+                  ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#4ade80' }}><span style={{ width: 8, height: 8, borderRadius: '50%', background: '#4ade80', display: 'inline-block' }} /> live</span>
+                  : <span style={{ color: '#6f9c81' }}>ended</span>}</td>
                 <td style={s.td}>{m._count.participants}</td>
                 <td style={s.td}>{fmt(m.startedAt)}</td>
                 <td style={s.td}><button onClick={() => openLog(m)} style={s.ghostSm}>Log</button></td>
@@ -263,7 +274,7 @@ function Meetings({ headers }: { headers: () => Record<string, string> }) {
           <div style={{ ...s.modal, maxWidth: 640 }} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
               <h3 style={{ fontWeight: 800 }}>Participants — {log.title}</h3>
-              <button onClick={() => setLog(null)} style={s.xBtn}>✕</button>
+              <button onClick={() => setLog(null)} style={s.xBtn}><X size={16} /></button>
             </div>
             <div style={{ ...s.tableWrap, maxHeight: '60vh' }}>
               <table style={s.table}>
@@ -275,7 +286,7 @@ function Meetings({ headers }: { headers: () => Record<string, string> }) {
                   {log.parts.map((p) => (
                     <tr key={p.id} style={s.tr}>
                       <td style={s.td}>{p.displayName}</td>
-                      <td style={s.td}>{p.user ? (p.user.isLinked ? '🔵 Google' : '👤 Guest-acct') : '👻 Guest'}</td>
+                      <td style={s.td}>{p.user ? <TypeBadge google={p.user.isLinked} label={p.user.isLinked ? 'Google' : 'Guest-acct'} /> : <TypeBadge google={false} label="Guest" />}</td>
                       <td style={s.td}>{p.role}</td>
                       <td style={s.td}>{fmt(p.joinedAt)}</td>
                       <td style={s.td}>{dur(p.joinedAt, p.leftAt)}</td>

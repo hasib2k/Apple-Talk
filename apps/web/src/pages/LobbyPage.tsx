@@ -4,6 +4,7 @@ import { useAuthStore } from '../store/auth.store';
 import { useMeetingStore } from '../store/meeting.store';
 import { meetingsApi, MeetingInfo } from '../lib/meetings';
 import { CLAY } from '../lib/clay';
+import { Mic, MicOff, Frown } from 'lucide-react';
 
 export default function LobbyPage() {
   const { code = '' } = useParams();
@@ -83,7 +84,7 @@ export default function LobbyPage() {
     return (
       <div style={s.page}>
         <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 40, marginBottom: 12 }}>😕</div>
+          <Frown size={40} color={CLAY.muted} style={{ marginBottom: 12 }} />
           <p style={{ fontSize: 18, fontWeight: 700 }}>{loadError}</p>
           <button onClick={() => navigate('/')} style={{ ...s.joinBtn, marginTop: 18 }}>Back to home</button>
         </div>
@@ -106,12 +107,14 @@ export default function LobbyPage() {
 
         {/* Mic preview */}
         <div style={s.micPreview}>
-          <div style={{ fontSize: 44 }}>{micEnabled ? '🎙️' : '🔇'}</div>
+          <div style={{ width: 84, height: 84, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: CLAY.bgDeep, boxShadow: CLAY.pressed }}>
+            {micEnabled ? <Mic size={34} color={CLAY.accent} /> : <MicOff size={34} color="#f87171" />}
+          </div>
           <div style={s.levelTrack}>
             <div style={{ ...s.levelFill, width: `${(micEnabled ? level : 0) * 100}%` }} />
           </div>
-          <button onClick={() => setMicEnabled((v) => !v)} style={{ ...s.micToggle, background: micEnabled ? '#16a34a' : '#ef4444' }}>
-            {micEnabled ? 'Mic on' : 'Mic off'}
+          <button onClick={() => setMicEnabled((v) => !v)} style={{ ...s.micToggle, display: 'inline-flex', alignItems: 'center', gap: 8, background: micEnabled ? '#16a34a' : '#ef4444' }}>
+            {micEnabled ? <Mic size={15} /> : <MicOff size={15} />}{micEnabled ? 'Mic on' : 'Mic off'}
           </button>
         </div>
 

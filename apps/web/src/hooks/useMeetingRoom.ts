@@ -32,7 +32,7 @@ export interface ChatMessage {
 
 export interface Reaction {
   id: string;
-  emoji: string;
+  key: string; // icon key (e.g. 'heart', 'thumbsup') — rendered as a lucide icon
   fromName: string;
 }
 
@@ -41,7 +41,7 @@ export type RoomStatus = 'idle' | 'connecting' | 'connected' | 'error' | 'discon
 type DataMsg =
   | { t: 'raise'; on: boolean }
   | { t: 'chat'; text: string }
-  | { t: 'reaction'; emoji: string }
+  | { t: 'reaction'; key: string }
   | { t: 'chat-state'; enabled: boolean };
 
 function metaRole(metadata?: string): Role {
@@ -162,7 +162,7 @@ export function useMeetingRoom() {
             setMessages((prev) => [...prev, { id: `${Date.now()}-${Math.random()}`, fromIdentity, fromName, text: msg.text, ts: Date.now(), self: false }]);
           } else if (msg.t === 'reaction') {
             const id = `${Date.now()}-${Math.random()}`;
-            setReactions((prev) => [...prev, { id, emoji: msg.emoji, fromName }]);
+            setReactions((prev) => [...prev, { id, key: msg.key, fromName }]);
             setTimeout(() => setReactions((prev) => prev.filter((r) => r.id !== id)), 4000);
           } else if (msg.t === 'chat-state') {
             setChatEnabled(msg.enabled);
@@ -214,10 +214,10 @@ export function useMeetingRoom() {
     }]);
   }, [send]);
 
-  const sendReaction = useCallback((emoji: string) => {
-    send({ t: 'reaction', emoji });
+  const sendReaction = useCallback((key: string) => {
+    send({ t: 'reaction', key });
     const id = `${Date.now()}-${Math.random()}`;
-    setReactions((prev) => [...prev, { id, emoji, fromName: 'You' }]);
+    setReactions((prev) => [...prev, { id, key, fromName: 'You' }]);
     setTimeout(() => setReactions((prev) => prev.filter((r) => r.id !== id)), 4000);
   }, [send]);
 
