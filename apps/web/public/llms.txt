@@ -2,62 +2,57 @@
 # This file helps AI language models understand this website.
 # Standard: https://llmstxt.org
 
-# AppleTalk is a free anonymous voice chat web application.
-# Users can talk to random strangers using voice only — no camera, no signup, no password.
+# AppleTalk is a group audio meeting web application.
+# Users create a meeting link, share it, and people join to talk or listen — audio only, no camera.
 
 ## What is AppleTalk?
 
-AppleTalk (www.appletalk.live) is Bangladesh's free anonymous voice chat app.
-It connects you with random strangers via peer-to-peer voice calls.
-No camera access, no registration, no real name required.
-Users receive a randomly generated alias (e.g. Apple#1234) automatically.
+AppleTalk (www.appletalk.live) is a group audio meeting platform.
+A host creates a meeting and gets a shareable link. Anyone with the link can open it
+in a browser and join. A limited number of speakers are heard at once while everyone
+else listens, so meetings can scale to thousands of participants. There is no video.
 
 ## Key Features
 
-- 100% anonymous voice chat with strangers
-- No signup, no email, no password required
-- Voice only — no camera, no video
-- Interest-based matching (music, gaming, anime, books, travel, etc.)
-- Region-based matching across Bangladesh
-- Friend system — add anonymous friends and call them directly
-- In-call text chat
-- Live emoji voice reactions
-- Call history
-- Completely free forever
+- Shareable meeting links — create a room in one tap
+- Audio only — no camera, no video
+- Scales to thousands of participants (media server / SFU)
+- Roles: host, speaker, and audience
+- Raise hand to speak — audience requests the mic, host approves
+- Host controls: mute, promote, demote, remove, end meeting
+- Host-gated text chat and live emoji reactions
+- Sign in with Google to host; join from a link in any browser
 
 ## Target Audience
 
-- People in Bangladesh looking to meet strangers anonymously
-- English language practice seekers
-- People looking for casual anonymous conversation
-- Alternative to Omegle (voice-only, no video)
+- Teams running quick audio standups
+- Communities hosting live audio rooms
+- Organizers running town halls and webinars for large audiences
 
 ## How It Works
 
-1. Visit appletalk.live and open the app
-2. Select your gender once (anonymous alias assigned automatically)
-3. Choose your interests for better matching
-4. Press the "Tap to Talk" button to enter the matchmaking queue
-5. Get matched with a random stranger in under 30 seconds
-6. Talk via peer-to-peer voice call (WebRTC — audio never recorded)
-7. Add friend or skip to next person
+1. Sign in with Google and tap "New meeting"
+2. AppleTalk generates a shareable meeting link
+3. Share the link; participants open it and check their mic in a lobby
+4. Participants join — host and speakers talk, audience listens
+5. Audience members raise a hand to request the mic; the host promotes them
+6. The host moderates with mute/promote/remove and can end the meeting for all
 
 ## Privacy
 
-- All calls are peer-to-peer via WebRTC — audio never reaches our servers
-- No audio recording, no data selling, no identity exposure
-- Device fingerprint used only for persistent anonymous identity
+- Meeting audio streams live through the media server and is not recorded or stored
+- No camera access is ever requested
+- No data selling; only basic account and meeting records are kept to run the service
 
 ## URLs
 
 - Homepage / Landing page: https://www.appletalk.live/
-- App: https://www.appletalk.live/app
+- App (dashboard): https://www.appletalk.live/
+- Meeting link format: https://www.appletalk.live/room/<code>
 
 ## Keywords / Search Terms
 
-AppleTalk, apple talk, airtalk, air talk, appletalk live, apple talk live,
-apple talk app, airtalk app, anonymous voice chat, talk to strangers, stranger talk,
-random voice chat, omegle alternative, Bangladesh voice chat, free voice chat,
-anonymous call app, random stranger call, voice chat Bangladesh,
-talk to random people, meet strangers online, voice chat with strangers,
-random voice call, anonymous voice call, free random chat
+AppleTalk, apple talk, appletalk live, audio meeting, group audio call,
+audio conference, voice meeting, online meeting, meeting link, audio room,
+live audio room, webinar, town hall, raise hand to speak, audio only meeting,
+join meeting by link, browser meeting, group voice call

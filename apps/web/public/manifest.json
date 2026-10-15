@@ -1,15 +1,15 @@
 {
-  "name": "AppleTalk — Anonymous Voice Chat",
+  "name": "AppleTalk — Group Audio Meetings",
   "short_name": "AppleTalk",
-  "description": "Bangladesh's free anonymous voice chat app. No camera, no signup. Talk to strangers by voice only.",
-  "start_url": "/app",
+  "description": "Create a meeting link and share it. Thousands can join and listen while speakers talk — audio only, no camera.",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0a2013",
-  "theme_color": "#05140d",
+  "background_color": "#0b2417",
+  "theme_color": "#0b2417",
   "lang": "en",
-  "categories": ["social", "communication"],
+  "categories": ["business", "productivity", "communication"],
   "icons": [
     {
       "src": "/favicon.ico",
@@ -44,10 +44,10 @@
   ],
   "shortcuts": [
     {
-      "name": "Start Talking",
-      "short_name": "Talk",
-      "description": "Jump straight into a random voice call",
-      "url": "/app",
+      "name": "New meeting",
+      "short_name": "New",
+      "description": "Create a new audio meeting and get a shareable link",
+      "url": "/",
       "icons": [{ "src": "/logo.png", "sizes": "any" }]
     }
   ]

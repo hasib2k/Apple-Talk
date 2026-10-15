@@ -119,16 +119,16 @@ export default function LoginPage() {
           <div>
             <h1 className="text-white text-4xl font-bold tracking-tight mb-3">AppleTalk</h1>
             <p className="text-leaf-400 text-base leading-relaxed">
-              Connect with strangers.<br />Make real friends.
+              Group audio meetings.<br />Share a link, everyone joins.
             </p>
           </div>
           <div className="flex flex-col gap-3.5 text-left w-full">
             {[
-              { icon: '🎙️', text: 'Anonymous voice calls — no camera' },
-              { icon: '🌍', text: 'Match by interests & region' },
-              { icon: '👥', text: 'Build real friendships' },
-              { icon: '✨', text: 'No judgment, just real conversations' },
-              { icon: '🔒', text: '100% free, forever' },
+              { icon: '🔗', text: 'Create a meeting link in one tap' },
+              { icon: '🎙️', text: 'Audio-only — no camera, ever' },
+              { icon: '👥', text: 'Thousands can join and listen' },
+              { icon: '✋', text: 'Raise your hand to speak' },
+              { icon: '🎛️', text: 'Host controls — mute, promote, remove' },
             ].map(({ icon, text }) => (
               <div key={text} className="flex items-center gap-3">
                 <span className="text-xl shrink-0">{icon}</span>
@@ -147,7 +147,7 @@ export default function LoginPage() {
           <img src="/logo.png" alt="AppleTalk" className="w-20 h-20 object-contain mb-4 drop-shadow-lg" />
           <h1 className="text-white text-2xl font-bold tracking-tight mb-1">AppleTalk</h1>
           <p className="text-leaf-400 text-sm text-center max-w-xs">
-            Connect with strangers. Make real friends.
+            Group audio meetings. Share a link, everyone joins.
           </p>
         </div>
 
@@ -193,15 +193,15 @@ export default function LoginPage() {
               <span className="mt-0.5 text-mango-400">🔓</span>
               <div>
                 <span className="text-white font-semibold">With Google login</span>
-                <div className="text-white/60 mt-0.5">Premium Features · Random Call/Chat · Friends list · Profile · Feed posts · Saved history</div>
+                <div className="text-white/60 mt-0.5">Create & host meetings · Full host controls · Saved meeting history</div>
               </div>
             </div>
             <div className="w-full h-px bg-white/8" />
             <div className="flex items-start gap-2">
               <span className="mt-0.5 text-leaf-400">👤</span>
               <div>
-                <span className="text-white/70 font-semibold">Without login</span>
-                <div className="text-white/40 mt-0.5">Random Call/Chat · Friends list · Feed View Only · No Premium Features</div>
+                <span className="text-white/70 font-semibold">Without login (guest)</span>
+                <div className="text-white/40 mt-0.5">Join a meeting via link · Listen & raise hand to speak</div>
               </div>
             </div>
           </div>

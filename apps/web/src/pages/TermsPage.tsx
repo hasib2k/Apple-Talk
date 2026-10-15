@@ -64,7 +64,7 @@ export default function TermsPage() {
         </p>
 
         <Section title="1. Acceptance of Terms">
-          <p>These terms constitute a binding agreement between you and AppleTalk. By using the Service — including creating an account, making a call, or browsing the website — you accept these terms in full.</p>
+          <p>These terms constitute a binding agreement between you and AppleTalk. By using the Service — including creating an account, hosting or joining a meeting, or browsing the website — you accept these terms in full.</p>
         </Section>
 
         <Section title="2. Eligibility">
@@ -77,19 +77,20 @@ export default function TermsPage() {
             <li>Harass, threaten, or harm any other user</li>
             <li>Share explicit, sexual, or pornographic content</li>
             <li>Engage in hate speech based on race, religion, gender, or other protected characteristics</li>
-            <li>Attempt to identify or dox any anonymous user</li>
+            <li>Attempt to identify or dox any other user</li>
             <li>Use the service for spam, scams, or solicitation</li>
+            <li>Disrupt a meeting you join (e.g. abusing the mic once given speaking rights)</li>
             <li>Violate any applicable law or regulation</li>
             <li>Attempt to reverse-engineer, scrape, or abuse the platform's systems</li>
           </ul>
         </Section>
 
-        <Section title="4. Anonymous Identity">
-          <p>AppleTalk assigns you a randomly generated alias. You must not attempt to identify yourself or others beyond what the platform provides. Sharing personal contact information (real names, phone numbers, social media handles) is done at your own risk and is not encouraged.</p>
+        <Section title="4. Identity & Hosts">
+          <p>You choose a display name when joining a meeting. You must not impersonate another person or organization. Meeting hosts are responsible for who they admit and promote to speak, and for moderating their own rooms using the provided controls.</p>
         </Section>
 
-        <Section title="5. Content & Calls">
-          <p>All voice calls are peer-to-peer and not recorded by AppleTalk. However, you are solely responsible for what you say during calls. AppleTalk is not liable for content exchanged between users. You must not record calls without the explicit consent of all participants.</p>
+        <Section title="5. Meetings & Content">
+          <p>Meeting audio streams live through our media server and is not recorded by AppleTalk. You are solely responsible for what you say in a meeting, and AppleTalk is not liable for content exchanged between participants. You must not record a meeting without the explicit consent of all participants.</p>
         </Section>
 
         <Section title="6. Moderation & Bans">
@@ -101,7 +102,7 @@ export default function TermsPage() {
         </Section>
 
         <Section title="8. Disclaimers">
-          <p>AppleTalk is provided "as is" without warranties of any kind. We do not guarantee uninterrupted service, match quality, or the behavior of other users. Use the Service at your own risk.</p>
+          <p>AppleTalk is provided "as is" without warranties of any kind. We do not guarantee uninterrupted service, audio quality, or the behavior of other users. Use the Service at your own risk.</p>
         </Section>
 
         <Section title="9. Limitation of Liability">

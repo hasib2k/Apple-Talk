@@ -13,21 +13,17 @@ const BORDER = '1px solid rgba(255,255,255,0.07)';
 const SECTION_BG = 'rgba(255,255,255,0.03)';
 
 const FAQS = [
-  { q: 'What is AppleTalk?', a: 'AppleTalk is a free anonymous voice chat app built for Bangladesh. It connects you instantly with random strangers through voice-only calls — no camera, no signup, and no password required.' },
-  { q: 'Is AppleTalk free?', a: 'Yes, completely free. No subscriptions, no ads, no hidden charges. Just open the app and start talking.' },
-  { q: 'Do I need to create an account?', a: 'No account is needed to start. AppleTalk gives you a randomly generated anonymous alias automatically. Optionally sign in with Google to unlock premium features like call history, friend messaging, and Feed posts.' },
-  { q: 'Is AppleTalk anonymous?', a: 'Yes, 100% anonymous. No real name, no profile photo, no camera. You are identified only by a randomly generated alias like Apple#1234. Nobody knows who you really are.' },
-  { q: 'Is AppleTalk an Omegle alternative?', a: 'Yes. AppleTalk is a voice-only Omegle alternative focused on Bangladesh. Unlike Omegle, it has interest-based matching, a friend system, in-call chat, and no video.' },
-  { q: 'How does AppleTalk match people?', a: 'AppleTalk matches you based on shared interests (music, gaming, books, travel, etc.) and your region. Matching typically takes under 30 seconds.' },
-  { q: 'Is my voice call private?', a: 'Yes. All calls are peer-to-peer using WebRTC technology. We never record, store, or listen to any audio from your calls. The audio goes directly between the two parties.' },
-  { q: 'Can I add someone as a friend?', a: 'Yes. During or after a call you can send a friend request. Once accepted, you can call or message them directly anytime — even when not in a random call.' },
-  { q: 'Which cities in Bangladesh can I connect from?', a: 'AppleTalk works across all of Bangladesh — Dhaka, Chittagong, Sylhet, Rajshahi, Khulna, Comilla, Barishal, Mymensingh, and everywhere else. You can match by city or talk to anyone nationwide.' },
-  { q: 'Can I use AppleTalk on mobile?', a: 'Yes. AppleTalk works on any device with a browser and microphone — Android, iPhone, or desktop. You can also install it as a PWA (Progressive Web App) for an app-like experience from your home screen.' },
-  { q: 'What is Premium on AppleTalk?', a: 'Premium users get benefits like priority matchmaking, gender filtering to match with a specific gender, and a verified badge in calls. Premium is optional — the core experience is always free.' },
-  { q: 'Can I skip to a new person during a call?', a: 'Yes. Tap the Skip button at any time to end the current call and instantly join the queue for a new random match. No awkward goodbyes needed.' },
-  { q: 'How do I report someone?', a: 'If someone is being inappropriate or abusive, tap the report button during the call. Our moderation team reviews all reports. Confirmed violations result in bans.' },
-  { q: 'Is there a chat feature?', a: 'Yes. You can send text messages to your partner during an active voice call using the in-call chat panel. Friends can also message each other directly outside of calls.' },
-  { q: 'What interests can I choose?', a: 'Current interests include: Music, Gaming, Anime, Books, Travel, English Practice, Blind Date, Make Friends, Tech, Fitness, Coding, and Movies. More are added regularly.' },
+  { q: 'What is AppleTalk?', a: 'AppleTalk is a group audio meeting platform. You create a meeting link, share it, and people join to talk or listen — all audio, no camera.' },
+  { q: 'Is AppleTalk free?', a: 'Yes. Creating and joining meetings is free.' },
+  { q: 'How many people can join a meeting?', a: 'A meeting can hold thousands of participants. A limited number of speakers are heard at once while everyone else listens, so even very large rooms stay smooth.' },
+  { q: 'Do I need an account?', a: 'To host a meeting you sign in with Google. People you invite can join directly from the meeting link (guest access may be restricted in production).' },
+  { q: 'Does AppleTalk use my camera?', a: 'No. AppleTalk is audio-only and never requests camera access. There is no video at any point.' },
+  { q: 'How does speaking work?', a: 'The host and promoted speakers can talk. Everyone else joins as audience, muted, and taps “raise hand” to request the mic. The host approves who gets to speak.' },
+  { q: 'What can the host do?', a: 'The host can mute anyone, promote an audience member to speaker, demote a speaker, remove participants, turn chat on or off, and end the meeting for everyone.' },
+  { q: 'Is there chat in a meeting?', a: 'Yes. The host can enable a text chat for the room, and everyone can send quick emoji reactions during the meeting.' },
+  { q: 'Are my meetings recorded?', a: 'No. Meeting audio streams live through the media server and is not recorded or stored.' },
+  { q: 'How do I share a meeting?', a: 'When you create a meeting, AppleTalk gives you a link. Anyone with the link can open it in a browser, check their mic, and join.' },
+  { q: 'Can I use AppleTalk on mobile?', a: 'Yes. AppleTalk works on any device with a browser and microphone — Android, iPhone, or desktop. You can also install it as a PWA from your home screen.' },
 ];
 
 export default function FaqPage() {
@@ -69,7 +65,7 @@ export default function FaqPage() {
             Frequently Asked Questions
           </h1>
           <p style={{ fontSize: 16, color: '#7aaa8e', lineHeight: 1.65, maxWidth: 500, margin: '0 auto' }}>
-            Everything you need to know about AppleTalk — anonymous voice chat for Bangladesh.
+            Everything you need to know about AppleTalk — group audio meetings, made simple.
           </p>
         </div>
 

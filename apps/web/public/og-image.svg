@@ -34,13 +34,13 @@
   <text x="440" y="285" font-family="Georgia, serif" font-size="90" font-weight="700" fill="white">AppleTalk</text>
 
   <!-- Tagline -->
-  <text x="444" y="345" font-family="Arial, sans-serif" font-size="36" fill="#86efac" letter-spacing="1">Voice chat with strangers. Anonymously.</text>
+  <text x="444" y="345" font-family="Arial, sans-serif" font-size="36" fill="#86efac" letter-spacing="1">Group audio meetings for everyone.</text>
 
   <!-- Divider -->
   <rect x="444" y="375" width="80" height="3" rx="2" fill="#4ade80"/>
 
   <!-- Sub text -->
-  <text x="444" y="420" font-family="Arial, sans-serif" font-size="28" fill="#9ccc65" opacity="0.8">No camera. No signup. Just talk.</text>
+  <text x="444" y="420" font-family="Arial, sans-serif" font-size="28" fill="#9ccc65" opacity="0.8">Share a link. Everyone joins. No camera.</text>
 
   <!-- appletalk.live -->
   <text x="444" y="480" font-family="Arial, sans-serif" font-size="26" fill="#4ade80" opacity="0.9">appletalk.live</text>

@@ -60,44 +60,40 @@ export default function PrivacyPage() {
         </div>
 
         <p style={{ fontSize: 15, color: '#9dbfaa', lineHeight: 1.8, marginBottom: 40 }}>
-          AppleTalk is built around privacy. We collect the minimum data necessary to operate the service. This policy explains what we collect, why, and how it is protected.
+          AppleTalk is a group audio meeting service built around privacy. We collect the minimum data necessary to run meetings. This policy explains what we collect, why, and how it is protected.
         </p>
 
         <Section title="1. What We Collect">
-          <p><strong style={{ color: '#c5dfc8' }}>Anonymous session data:</strong> A device fingerprint hash used to restore your anonymous session across page reloads. This is not linked to your identity.</p>
+          <p><strong style={{ color: '#c5dfc8' }}>Account data:</strong> If you sign in with Google, we receive your Google ID, display name, and email to identify your account across sessions. Guest participants provide only a display name.</p>
           <br />
-          <p><strong style={{ color: '#c5dfc8' }}>Google account data (optional):</strong> If you sign in with Google, we receive your Google ID, display name, email, and profile picture. This is stored to identify your account across sessions.</p>
+          <p><strong style={{ color: '#c5dfc8' }}>Session data:</strong> A device fingerprint hash used to restore your session across page reloads. It is not linked to your real identity.</p>
           <br />
-          <p><strong style={{ color: '#c5dfc8' }}>Preferences:</strong> Your selected gender, region, and interests — stored to improve matchmaking.</p>
-          <br />
-          <p><strong style={{ color: '#c5dfc8' }}>Friend messages:</strong> Text messages sent between friends are stored in our database so both parties can view message history.</p>
-          <br />
-          <p><strong style={{ color: '#c5dfc8' }}>Call metadata:</strong> We log the fact that a call occurred (timestamp, duration, alias) for your call history. We do not record audio.</p>
+          <p><strong style={{ color: '#c5dfc8' }}>Meeting data:</strong> Meetings you create (title, link code, settings) and participant records — who joined, their role, and join/leave times — kept for meeting history and moderation. We do not record meeting audio.</p>
         </Section>
 
         <Section title="2. What We Do NOT Collect">
           <ul style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <li>We do <strong style={{ color: '#c5dfc8' }}>not</strong> record, store, or transmit your voice calls. All audio is peer-to-peer via WebRTC.</li>
-            <li>We do <strong style={{ color: '#c5dfc8' }}>not</strong> access your camera — AppleTalk is voice-only by design.</li>
+            <li>We do <strong style={{ color: '#c5dfc8' }}>not</strong> record or store meeting audio. Audio streams live through the media server and is discarded.</li>
+            <li>We do <strong style={{ color: '#c5dfc8' }}>not</strong> access your camera — AppleTalk is audio-only by design.</li>
             <li>We do <strong style={{ color: '#c5dfc8' }}>not</strong> sell, rent, or share your data with any third party for advertising or commercial purposes.</li>
-            <li>We do <strong style={{ color: '#c5dfc8' }}>not</strong> use tracking cookies or third-party analytics on authenticated pages.</li>
+            <li>We do <strong style={{ color: '#c5dfc8' }}>not</strong> use tracking cookies or third-party advertising analytics.</li>
           </ul>
         </Section>
 
         <Section title="3. How We Use Your Data">
-          <p>Data is used solely to operate AppleTalk: to restore your session, match you with other users, power the friend system, and provide call history. We do not use your data to build advertising profiles or sell to data brokers.</p>
+          <p>Data is used solely to operate AppleTalk: to restore your session, let you create and join meetings, enforce host controls and bans, and show meeting history. We do not use your data to build advertising profiles or sell to data brokers.</p>
         </Section>
 
         <Section title="4. Data Storage & Security">
           <p>All data is stored in a secured database. Access tokens are short-lived (15 minutes). Refresh tokens are stored in localStorage and can be revoked by logging out. We use industry-standard encryption for data in transit (HTTPS/WSS) and at rest.</p>
         </Section>
 
-        <Section title="5. Push Notifications">
-          <p>If you grant notification permission, we store a push subscription token to send you alerts (e.g., friend requests, messages). You can revoke this at any time from your browser settings.</p>
+        <Section title="5. Cookies & Local Storage">
+          <p>We store authentication tokens in your browser's local storage so you stay signed in. We do not use advertising or cross-site tracking cookies.</p>
         </Section>
 
         <Section title="6. Your Rights">
-          <p>You may request deletion of your account and all associated data at any time. Anonymous accounts (no Google login) automatically expire after 90 days of inactivity. Google-linked accounts persist until deleted.</p>
+          <p>You may request deletion of your account and all associated data at any time. Guest/anonymous accounts (no Google login) automatically expire after 90 days of inactivity. Google-linked accounts persist until deleted.</p>
         </Section>
 
         <Section title="7. Children">
