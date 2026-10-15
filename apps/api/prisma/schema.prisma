@@ -76,6 +76,7 @@ model MeetingParticipant {
   id          String    @id @default(cuid())
   meetingId   String
   userId      String? // null for pure-guest (dev only)
+  identity    String    @db.VarChar(64) // LiveKit participant identity
   displayName String    @db.VarChar(60)
   role        String    @default("audience") @db.VarChar(16) // 'host' | 'speaker' | 'audience'
   joinedAt    DateTime  @default(now())
@@ -86,4 +87,5 @@ model MeetingParticipant {
 
   @@index([meetingId])
   @@index([userId])
+  @@index([meetingId, identity])
 }

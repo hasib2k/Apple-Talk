@@ -9,20 +9,9 @@ import TermsPage from './pages/TermsPage';
 import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/AdminPage';
 import GoogleAuthSuccess from './pages/GoogleAuthSuccess';
-
-// Placeholder home for the authenticated area.
-// Phase 3 replaces this with the Google-Meet-style dashboard.
-function HomePlaceholder() {
-  const { user } = useAuthStore();
-  return (
-    <div style={{ minHeight: '100dvh', background: '#05140d', color: '#f4fbe9', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, fontFamily: 'system-ui' }}>
-      <img src="/logo.png" alt="AppleTalk" style={{ width: 72, height: 72, objectFit: 'contain' }} />
-      <h1 style={{ fontSize: 26, fontWeight: 800 }}>AppleTalk</h1>
-      <p style={{ color: '#8fcea8' }}>Signed in as <b style={{ color: '#a3e635' }}>{user?.anonAlias ?? 'guest'}</b></p>
-      <p style={{ color: '#6f9c81', fontSize: 14 }}>Meeting dashboard coming in Phase 3.</p>
-    </div>
-  );
-}
+import DashboardPage from './pages/DashboardPage';
+import LobbyPage from './pages/LobbyPage';
+import RoomPage from './pages/RoomPage';
 
 function AuthenticatedGate() {
   const { loading, error, initialize } = useAuth();
@@ -49,7 +38,7 @@ function AuthenticatedGate() {
     );
   }
 
-  return <HomePlaceholder />;
+  return <DashboardPage />;
 }
 
 function AuthGate() {
@@ -82,6 +71,9 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/auth/google/success" element={<GoogleAuthSuccess />} />
+          {/* Meeting links — accessible to logged-in users and (dev) guests */}
+          <Route path="/room/:code" element={<LobbyPage />} />
+          <Route path="/room/:code/live" element={<RoomPage />} />
           <Route path="*" element={<AuthGate />} />
         </Routes>
       </BrowserRouter>

@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { HealthModule } from './modules/health/health.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { MeetingsModule } from './modules/meetings/meetings.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { PrismaService } from './common/services/prisma.service';
 
@@ -30,6 +31,7 @@ import { PrismaService } from './common/services/prisma.service';
     UsersModule,
     HealthModule,
     AdminModule,
+    MeetingsModule,
   ],
   providers: [
     {
