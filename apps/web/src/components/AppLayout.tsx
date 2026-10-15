@@ -148,8 +148,8 @@ export function AppLayout() {
 
   // Desktop nav items (no Profile — accessed via avatar)
   const desktopNavItems = [
-    { to: '/', label: 'Home' },
-    { to: '/match', label: 'Matchmaking' },
+    { to: '/match', label: 'Home' },
+    { to: '/feed', label: 'Feed' },
     { to: '/friends', label: 'Friends', badge: friendsBadge },
     { to: '/history', label: 'History' },
   ];
@@ -158,7 +158,7 @@ export function AppLayout() {
 
   // Mobile bottom nav items (4 tabs + 1 center mic)
   const mobileNavLeft: { to: string; label: string; icon: ({ active, isPremium }: { active: boolean; isPremium?: boolean }) => React.ReactElement; badge?: number }[] = [
-    { to: '/', label: 'Feed', icon: FeedIcon },
+    { to: '/feed', label: 'Feed', icon: FeedIcon },
     { to: '/friends', label: 'Friends', icon: FriendsIcon, badge: friendsBadge },
   ];
   const mobileNavRight: { to: string; label: string; icon: ({ active, isPremium }: { active: boolean; isPremium?: boolean }) => React.ReactElement; badge?: number }[] = [

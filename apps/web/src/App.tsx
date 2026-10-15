@@ -188,7 +188,7 @@ function AppRoutes() {
         <Route element={<AppLayout />}>
           <Route path="/" element={<Navigate to="/match" replace />} />
           <Route path="/match" element={<HomePage />} />
-          <Route path="/feed" element={<Navigate to="/" replace />} />
+          <Route path="/feed" element={<FeedPage />} />
           <Route path="/app" element={<Navigate to="/match" replace />} />
           <Route path="/home" element={<Navigate to="/match" replace />} />
           <Route path="/friends" element={<FriendsPage />} />

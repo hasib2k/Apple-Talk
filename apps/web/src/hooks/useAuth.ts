@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
+import axios from 'axios';
 import { api } from '../lib/api';
 import { getDeviceFingerprint } from '../lib/fingerprint';
 import { connectSocket } from '../lib/socket';
 import { useAuthStore } from '../store/auth.store';
 import { registerPush } from '../lib/push';
+
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 let _disconnectHandlerActive = false;
 let _sessionReplaced = false;
@@ -54,9 +57,11 @@ export function useAuth() {
     const boot = async () => {
       // If a refresh token exists, always try to restore the session first.
       // Don't require accessToken in memory — page reload clears that.
+      // Use raw axios (not the api instance) to avoid the 401 interceptor redirecting
+      // to /login when the stored token is stale — we want to fall through to initialize() instead.
       if (storedRefresh) {
         try {
-          const { data } = await api.post('/auth/refresh', { refreshToken: storedRefresh });
+          const { data } = await axios.post(`${BASE_URL}/api/v1/auth/refresh`, { refreshToken: storedRefresh });
           const { useAuthStore: store } = await import('../store/auth.store');
           store.getState().setAuth(data.user, data.tokens);
           connectSocket(data.tokens.accessToken);

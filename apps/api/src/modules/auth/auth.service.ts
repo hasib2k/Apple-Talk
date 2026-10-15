@@ -186,7 +186,8 @@ export class AuthService {
 
     const tokens = this.generateTokenPair(session.userId);
 
-    await this.prisma.session.update({
+    // Use updateMany to avoid P2025 if session was concurrently deleted (race condition)
+    await this.prisma.session.updateMany({
       where: { id: session.id },
       data: { token: tokens.refreshToken },
     });
