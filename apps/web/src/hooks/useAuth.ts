@@ -2,14 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { api } from '../lib/api';
 import { getDeviceFingerprint } from '../lib/fingerprint';
-import { connectSocket } from '../lib/socket';
 import { useAuthStore } from '../store/auth.store';
-import { registerPush } from '../lib/push';
 
 const BASE_URL = import.meta.env.VITE_API_URL || '';
-
-let _disconnectHandlerActive = false;
-let _sessionReplaced = false;
 
 export function useAuth() {
   const { user, accessToken, setAuth, isInitialized, updateUser } = useAuthStore();
@@ -26,24 +21,11 @@ export function useAuth() {
       try {
         const { data } = await api.post('/auth/init', { deviceFingerprint: fingerprint });
         setAuth(data.user, data.tokens);
-        connectSocket(data.tokens.accessToken);
-        registerPush().catch(() => {});
-        // If server has no gender but localStorage does, sync it back to the DB.
-        // This handles the case where the API call failed silently during onboarding,
-        // or the DB was reset while the user's localStorage still had their gender.
-        if (!data.user.gender) {
-          const localGender = localStorage.getItem('mangotalk_my_gender');
-          if (localGender === 'male' || localGender === 'female') {
-            api.patch('/users/me', { gender: localGender })
-              .then(res => updateUser(res.data))
-              .catch(() => {});
-          }
-        }
         setLoading(false);
         return;
       } catch (err) {
         lastErr = err;
-        if (attempt < 2) await new Promise(r => setTimeout(r, 1500));
+        if (attempt < 2) await new Promise((r) => setTimeout(r, 1500));
       }
     }
     console.error('Auth init error:', lastErr);
@@ -55,53 +37,27 @@ export function useAuth() {
     const storedRefresh = localStorage.getItem('refreshToken');
 
     const boot = async () => {
-      // If a refresh token exists, always try to restore the session first.
-      // Don't require accessToken in memory — page reload clears that.
-      // Use raw axios (not the api instance) to avoid the 401 interceptor redirecting
-      // to /login when the stored token is stale — we want to fall through to initialize() instead.
+      // If a refresh token exists, restore the session first.
+      // Use raw axios (not the api instance) to avoid the 401 interceptor
+      // redirecting to /login when the stored token is stale.
       if (storedRefresh) {
         try {
           const { data } = await axios.post(`${BASE_URL}/api/v1/auth/refresh`, { refreshToken: storedRefresh });
-          const { useAuthStore: store } = await import('../store/auth.store');
-          store.getState().setAuth(data.user, data.tokens);
-          connectSocket(data.tokens.accessToken);
-          registerPush().catch(() => {});
+          useAuthStore.getState().setAuth(data.user, data.tokens);
           setLoading(false);
-          return data.tokens.accessToken as string;
+          return;
         } catch {
-          // refresh token expired or invalid — fall through to fresh init
+          // refresh token expired/invalid — fall through to fresh init
         }
       }
       await initialize();
-      return useAuthStore.getState().accessToken ?? '';
     };
 
-    boot().then(token => {
-      const s = connectSocket(token);
-
-      function onDisconnect(reason: string) {
-        if (_sessionReplaced) {
-          // Kicked by another tab/device logging in — don't re-initialize
-          _sessionReplaced = false;
-          return;
-        }
-        if (reason === 'io server disconnect') initialize();
-      }
-      function onPremiumUpdated(payload: { isPremium: boolean; premiumUntil: string | null }) {
-        useAuthStore.getState().updateUser({ isPremium: payload.isPremium, premiumUntil: payload.premiumUntil ? new Date(payload.premiumUntil) : null });
-      }
-
-      s.on('user:premium-updated', onPremiumUpdated);
-      if (!_disconnectHandlerActive) {
-        _disconnectHandlerActive = true;
-        s.on('session:replaced', () => { _sessionReplaced = true; });
-        s.on('disconnect', onDisconnect);
-      }
-    });
-    // Don't disconnect on unmount — socket must stay alive across page navigation
+    boot();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const saveProfile = useCallback(async (updates: { anonAlias?: string; region?: string; gender?: string; interests?: string[] }) => {
+  const saveProfile = useCallback(async (updates: { anonAlias?: string }) => {
     const { data } = await api.patch('/users/me', updates);
     updateUser(data);
     return data;

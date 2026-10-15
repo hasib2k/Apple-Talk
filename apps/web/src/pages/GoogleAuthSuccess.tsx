@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
-import { connectSocket } from '../lib/socket';
 import { api } from '../lib/api';
 
 /**
@@ -33,7 +32,6 @@ export default function GoogleAuthSuccess() {
     api.get('/users/me')
       .then(res => {
         setAuth(res.data, { accessToken, refreshToken });
-        connectSocket(accessToken);
         const redirect = sessionStorage.getItem('google_auth_redirect') || '/';
         sessionStorage.removeItem('google_auth_redirect');
         navigate(redirect, { replace: true });

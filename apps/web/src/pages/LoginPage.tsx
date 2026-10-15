@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
 import { api } from '../lib/api';
-import { connectSocket } from '../lib/socket';
 import { getDeviceFingerprint } from '../lib/fingerprint';
 import { usePwaInstall } from '../hooks/usePwaInstall';
 
@@ -41,7 +40,6 @@ export default function LoginPage() {
           try {
             const { data } = await api.post('/auth/google/one-tap', { credential: response.credential });
             setAuth(data.user, data.tokens);
-            connectSocket(data.tokens.accessToken);
             localStorage.setItem('anon_session_active', 'true');
             navigate('/', { replace: true });
           } catch {
@@ -85,7 +83,6 @@ export default function LoginPage() {
       try { fingerprint = await getDeviceFingerprint(); } catch { /* non-secure context */ }
       const { data } = await api.post('/auth/init', { deviceFingerprint: fingerprint });
       setAuth(data.user, data.tokens);
-      connectSocket(data.tokens.accessToken);
       localStorage.setItem('anon_session_active', 'true');
       navigate('/', { replace: true });
     } catch {
