@@ -27,4 +27,10 @@ export default () => ({
     turnUsername: process.env.TURN_USERNAME,
     turnCredential: process.env.TURN_CREDENTIAL,
   },
+  livekit: {
+    url: process.env.LIVEKIT_URL ?? 'ws://localhost:7880',
+    apiKey: process.env.LIVEKIT_API_KEY ?? 'devkey',
+    apiSecret: process.env.LIVEKIT_API_SECRET ?? 'secret',
+  },
+  allowGuestJoin: (process.env.ALLOW_GUEST_JOIN ?? 'true') === 'true',
 });

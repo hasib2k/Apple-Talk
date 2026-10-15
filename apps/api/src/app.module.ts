@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import * as path from 'path';
 import { BullModule } from '@nestjs/bull';
 import { ThrottlerModule } from '@nestjs/throttler';
 import configuration from './config/configuration';
@@ -17,6 +18,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { PostsModule } from './modules/posts/posts.module';
 import { PushModule } from './modules/push/push.module';
+import { SpikeModule } from './modules/spike/spike.module';
 import { SharedModule } from './common/shared.module';
 import { AppGateway } from './gateways/app.gateway';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
@@ -24,7 +26,16 @@ import { PrismaService } from './common/services/prisma.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+      // .env lives at the monorepo root; the API runs with CWD = apps/api,
+      // so point explicitly at the root file (falling back to a local one).
+      envFilePath: [
+        path.resolve(process.cwd(), '../../.env'),
+        path.resolve(process.cwd(), '.env'),
+      ],
+    }),
 
     ThrottlerModule.forRoot([{ ttl: 60_000, limit: 100 }]),
 
@@ -49,6 +60,7 @@ import { PrismaService } from './common/services/prisma.service';
     NotificationsModule,
     PostsModule,
     PushModule,
+    SpikeModule,
   ],
   providers: [
     {

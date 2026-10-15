@@ -26,6 +26,7 @@ import PremiumPage from './pages/PremiumPage';
 import FeedPage from './pages/FeedPage';
 import GoogleAuthSuccess from './pages/GoogleAuthSuccess';
 import PostDetailPage from './pages/PostDetailPage';
+import SpikePage from './pages/SpikePage';
 
 function AppRoutes() {
   const socket = useSocket();
@@ -326,6 +327,7 @@ export default function App() {
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/spike" element={<SpikePage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/auth/google/success" element={<GoogleAuthSuccess />} />
           <Route path="*" element={<AuthGate />} />
