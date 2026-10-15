@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
 import { useMeetingStore } from '../store/meeting.store';
 import { meetingsApi, MeetingInfo } from '../lib/meetings';
+import { CLAY } from '../lib/clay';
 
 export default function LobbyPage() {
   const { code = '' } = useParams();
@@ -133,14 +134,14 @@ export default function LobbyPage() {
 }
 
 const s: Record<string, React.CSSProperties> = {
-  page: { minHeight: '100dvh', background: '#05140d', color: '#f4fbe9', fontFamily: 'system-ui', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 },
-  card: { background: '#0a2013', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 18, padding: 32, width: '100%', maxWidth: 420, textAlign: 'center' },
-  micPreview: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, margin: '28px 0' },
-  levelTrack: { width: '70%', height: 8, borderRadius: 999, background: '#05140d', overflow: 'hidden', border: '1px solid #2a4a35' },
-  levelFill: { height: '100%', background: 'linear-gradient(90deg,#84cc16,#bef264)', transition: 'width 0.08s linear' },
-  micToggle: { border: 'none', color: '#fff', fontWeight: 700, borderRadius: 999, padding: '9px 20px', cursor: 'pointer', fontSize: 14 },
-  nameInput: { width: '100%', boxSizing: 'border-box', padding: 12, borderRadius: 10, border: '1px solid #2a4a35', background: '#05140d', color: '#fff', marginBottom: 14, fontSize: 15 },
-  joinNow: { width: '100%', background: 'linear-gradient(150deg,#bef264,#84cc16)', color: '#1a2e05', fontWeight: 800, border: 'none', borderRadius: 999, padding: 14, cursor: 'pointer', fontSize: 15 },
-  joinBtn: { background: 'linear-gradient(150deg,#bef264,#84cc16)', color: '#1a2e05', fontWeight: 700, border: 'none', borderRadius: 999, padding: '10px 22px', cursor: 'pointer' },
-  backLink: { background: 'transparent', border: 'none', color: '#6f9c81', marginTop: 12, cursor: 'pointer', fontSize: 14 },
+  page: { minHeight: '100dvh', background: CLAY.bg, color: CLAY.text, fontFamily: 'system-ui', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 },
+  card: { background: CLAY.surface, borderRadius: CLAY.r, padding: 36, width: '100%', maxWidth: 420, textAlign: 'center', boxShadow: CLAY.raised },
+  micPreview: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, margin: '28px 0' },
+  levelTrack: { width: '70%', height: 12, borderRadius: 999, background: CLAY.bgDeep, overflow: 'hidden', boxShadow: CLAY.pressed },
+  levelFill: { height: '100%', background: CLAY.accentGrad, transition: 'width 0.08s linear', borderRadius: 999 },
+  micToggle: { border: 'none', color: '#fff', fontWeight: 800, borderRadius: 999, padding: '11px 24px', cursor: 'pointer', fontSize: 14, boxShadow: CLAY.raisedSm },
+  nameInput: { width: '100%', boxSizing: 'border-box', padding: 14, borderRadius: CLAY.rSm, border: 'none', background: CLAY.bgDeep, color: '#fff', marginBottom: 16, fontSize: 15, boxShadow: CLAY.pressed, outline: 'none' },
+  joinNow: { width: '100%', background: CLAY.accentGrad, color: '#1a2e05', fontWeight: 800, border: 'none', borderRadius: CLAY.rPill, padding: 15, cursor: 'pointer', fontSize: 15, boxShadow: CLAY.btnGreen },
+  joinBtn: { background: CLAY.accentGrad, color: '#1a2e05', fontWeight: 800, border: 'none', borderRadius: CLAY.rPill, padding: '12px 24px', cursor: 'pointer', boxShadow: CLAY.btnGreen },
+  backLink: { background: 'transparent', border: 'none', color: CLAY.faint, marginTop: 14, cursor: 'pointer', fontSize: 14 },
 };

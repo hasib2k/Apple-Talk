@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
 import { meetingsApi, MyMeeting } from '../lib/meetings';
+import { CLAY } from '../lib/clay';
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -151,7 +152,7 @@ export default function DashboardPage() {
             <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>Your meeting is ready</h2>
             <p style={{ color: '#8fcea8', fontSize: 14, marginBottom: 16 }}>Share this link with people you want in the meeting.</p>
             <div style={{ display: 'flex', gap: 8 }}>
-              <input readOnly value={createdLink} style={{ ...s.joinInput, flex: 1, background: '#05140d', padding: 12, borderRadius: 10, border: '1px solid #2a4a35' }} />
+              <input readOnly value={createdLink} style={{ ...s.joinInput, flex: 1, background: CLAY.bgDeep, padding: 12, borderRadius: 14, boxShadow: CLAY.pressed, width: 'auto' }} />
               <button onClick={() => navigator.clipboard.writeText(createdLink)} style={{ ...s.smallSolid, padding: '0 16px' }}>Copy</button>
             </div>
             <div style={{ display: 'flex', gap: 10, marginTop: 18, justifyContent: 'flex-end' }}>
@@ -166,20 +167,20 @@ export default function DashboardPage() {
 }
 
 const s: Record<string, React.CSSProperties> = {
-  page: { minHeight: '100dvh', background: '#05140d', color: '#f4fbe9', fontFamily: 'system-ui', display: 'flex', flexDirection: 'column' },
-  header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 28px', borderBottom: '1px solid rgba(255,255,255,0.06)' },
-  joinBox: { display: 'flex', alignItems: 'center', background: '#0a2013', border: '1px solid #2a4a35', borderRadius: 999, overflow: 'hidden' },
-  joinInput: { background: 'transparent', border: 'none', outline: 'none', color: '#fff', padding: '9px 14px', width: 200, fontSize: 14 },
-  joinBtn: { background: 'transparent', border: 'none', color: '#a3e635', fontWeight: 700, padding: '9px 16px', cursor: 'pointer', fontSize: 14 },
-  newBtn: { background: 'linear-gradient(150deg,#bef264,#84cc16)', color: '#1a2e05', fontWeight: 700, border: 'none', borderRadius: 999, padding: '9px 18px', cursor: 'pointer', fontSize: 14 },
-  menu: { position: 'absolute', right: 0, top: 46, background: '#0d2318', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, padding: 6, width: 250, boxShadow: '0 12px 40px rgba(0,0,0,0.5)', zIndex: 10 },
-  menuItem: { display: 'block', width: '100%', textAlign: 'left', background: 'transparent', border: 'none', color: '#f4fbe9', padding: '11px 12px', borderRadius: 8, cursor: 'pointer', fontSize: 14 },
-  avatar: { width: 38, height: 38, borderRadius: '50%', background: 'linear-gradient(150deg,#1f5c3d,#0c2e1d)', color: '#fff', border: 'none', fontWeight: 700, cursor: 'pointer', fontSize: 15 },
+  page: { minHeight: '100dvh', background: CLAY.bg, color: CLAY.text, fontFamily: 'system-ui', display: 'flex', flexDirection: 'column' },
+  header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 28px' },
+  joinBox: { display: 'flex', alignItems: 'center', background: CLAY.bgDeep, borderRadius: CLAY.rPill, overflow: 'hidden', boxShadow: CLAY.pressed },
+  joinInput: { background: 'transparent', border: 'none', outline: 'none', color: '#fff', padding: '11px 18px', width: 200, fontSize: 14 },
+  joinBtn: { background: 'transparent', border: 'none', color: CLAY.accent, fontWeight: 800, padding: '11px 18px', cursor: 'pointer', fontSize: 14 },
+  newBtn: { background: CLAY.accentGrad, color: '#1a2e05', fontWeight: 800, border: 'none', borderRadius: CLAY.rPill, padding: '11px 22px', cursor: 'pointer', fontSize: 14, boxShadow: CLAY.btnGreen },
+  menu: { position: 'absolute', right: 0, top: 52, background: CLAY.surface, borderRadius: 20, padding: 8, width: 258, boxShadow: CLAY.raised, zIndex: 10 },
+  menuItem: { display: 'block', width: '100%', textAlign: 'left', background: 'transparent', border: 'none', color: CLAY.text, padding: '12px 14px', borderRadius: 14, cursor: 'pointer', fontSize: 14 },
+  avatar: { width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(145deg,#2a7a52,#0c2e1d)', color: '#fff', border: 'none', fontWeight: 800, cursor: 'pointer', fontSize: 16, boxShadow: CLAY.raisedSm },
   main: { flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24 },
-  ctaPrimary: { background: 'linear-gradient(150deg,#bef264,#84cc16)', color: '#1a2e05', fontWeight: 800, border: 'none', borderRadius: 999, padding: '13px 28px', cursor: 'pointer', fontSize: 15 },
-  recentRow: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, background: '#0a2013', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '12px 16px' },
-  smallGhost: { background: 'transparent', border: '1px solid #2a4a35', color: '#c5e88a', borderRadius: 999, padding: '7px 14px', cursor: 'pointer', fontSize: 13 },
-  smallSolid: { background: 'linear-gradient(150deg,#bef264,#84cc16)', color: '#1a2e05', fontWeight: 700, border: 'none', borderRadius: 999, padding: '7px 14px', cursor: 'pointer', fontSize: 13 },
-  overlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 50 },
-  modal: { background: '#0d2318', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 24, width: '100%', maxWidth: 440 },
+  ctaPrimary: { background: CLAY.accentGrad, color: '#1a2e05', fontWeight: 800, border: 'none', borderRadius: CLAY.rPill, padding: '15px 34px', cursor: 'pointer', fontSize: 15, boxShadow: CLAY.btnGreen },
+  recentRow: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, background: CLAY.surface, borderRadius: 20, padding: '14px 18px', boxShadow: CLAY.raisedSm },
+  smallGhost: { background: CLAY.surfaceAlt, border: 'none', color: CLAY.text, borderRadius: CLAY.rPill, padding: '8px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600, boxShadow: CLAY.raisedSm },
+  smallSolid: { background: CLAY.accentGrad, color: '#1a2e05', fontWeight: 800, border: 'none', borderRadius: CLAY.rPill, padding: '8px 16px', cursor: 'pointer', fontSize: 13, boxShadow: CLAY.btnGreen },
+  overlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 50 },
+  modal: { background: CLAY.surface, borderRadius: CLAY.r, padding: 28, width: '100%', maxWidth: 440, boxShadow: CLAY.raised },
 };

@@ -18,7 +18,7 @@ function AuthenticatedGate() {
 
   if (loading) {
     return (
-      <div className="h-dvh bg-leaf-900 flex flex-col items-center justify-center gap-4" style={{ background: '#05140d' }}>
+      <div className="h-dvh bg-leaf-900 flex flex-col items-center justify-center gap-4" style={{ background: '#0b2417' }}>
         <img src="/logo.png" alt="AppleTalk" className="animate-pulse" style={{ width: 96, height: 96, objectFit: 'contain' }} />
         <p style={{ color: '#8fcea8', fontSize: 14, fontWeight: 500 }}>Loading AppleTalk...</p>
       </div>
@@ -27,7 +27,7 @@ function AuthenticatedGate() {
 
   if (error) {
     return (
-      <div className="h-dvh flex flex-col items-center justify-center gap-4 px-6" style={{ background: '#05140d' }}>
+      <div className="h-dvh flex flex-col items-center justify-center gap-4 px-6" style={{ background: '#0b2417' }}>
         <span style={{ fontSize: 48 }}>⚠️</span>
         <p style={{ color: '#fff', fontWeight: 600 }}>Could not connect to server</p>
         <p style={{ color: '#8fcea8', fontSize: 14 }}>{error}</p>

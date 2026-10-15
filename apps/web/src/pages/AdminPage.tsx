@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
+import { CLAY } from '../lib/clay';
 
 const BASE = (import.meta.env.VITE_API_URL || '') + '/api/v1/admin';
 
@@ -345,27 +346,27 @@ function Bans({ headers }: { headers: () => Record<string, string> }) {
 // ─── styles ──────────────────────────────────────────────────────────────────
 
 const s: Record<string, React.CSSProperties> = {
-  loginWrap: { minHeight: '100dvh', background: '#05140d', color: '#f4fbe9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'system-ui' },
-  loginCard: { background: '#0a2013', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16, padding: 28, width: 320, textAlign: 'center' },
-  shell: { minHeight: '100dvh', background: '#05140d', color: '#f4fbe9', fontFamily: 'system-ui', display: 'flex' },
-  sidebar: { width: 210, borderRight: '1px solid rgba(255,255,255,0.06)', padding: 16, display: 'flex', flexDirection: 'column', gap: 4 },
-  navItem: { textAlign: 'left', background: 'transparent', border: 'none', color: '#8fcea8', padding: '10px 12px', borderRadius: 10, cursor: 'pointer', fontSize: 14, fontWeight: 600 },
-  navItemActive: { background: 'rgba(163,230,53,0.12)', color: '#a3e635' },
+  loginWrap: { minHeight: '100dvh', background: CLAY.bg, color: CLAY.text, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'system-ui' },
+  loginCard: { background: CLAY.surface, borderRadius: CLAY.r, padding: 32, width: 320, textAlign: 'center', boxShadow: CLAY.raised },
+  shell: { minHeight: '100dvh', background: CLAY.bg, color: CLAY.text, fontFamily: 'system-ui', display: 'flex' },
+  sidebar: { width: 220, padding: 16, display: 'flex', flexDirection: 'column', gap: 6 },
+  navItem: { textAlign: 'left', background: 'transparent', border: 'none', color: CLAY.muted, padding: '11px 14px', borderRadius: 14, cursor: 'pointer', fontSize: 14, fontWeight: 600 },
+  navItemActive: { background: CLAY.surface, color: CLAY.accent, boxShadow: CLAY.raisedSm },
   content: { flex: 1, padding: 28, overflowY: 'auto' },
   h2: { fontSize: 22, fontWeight: 800, marginBottom: 18 },
-  statCard: { background: '#0a2013', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: 18 },
-  input: { width: '100%', boxSizing: 'border-box', padding: 11, borderRadius: 10, border: '1px solid #2a4a35', background: '#05140d', color: '#fff', marginBottom: 12, fontSize: 14 },
-  select: { padding: 11, borderRadius: 10, border: '1px solid #2a4a35', background: '#05140d', color: '#fff', fontSize: 14 },
-  primaryBtn: { width: '100%', padding: 12, borderRadius: 10, border: 'none', background: 'linear-gradient(150deg,#bef264,#84cc16)', color: '#1a2e05', fontWeight: 700, cursor: 'pointer' },
-  primaryBtnSm: { padding: '0 18px', borderRadius: 10, border: 'none', background: 'linear-gradient(150deg,#bef264,#84cc16)', color: '#1a2e05', fontWeight: 700, cursor: 'pointer', fontSize: 14 },
-  ghostSm: { background: 'transparent', border: '1px solid #2a4a35', color: '#c5e88a', borderRadius: 8, padding: '5px 10px', cursor: 'pointer', fontSize: 12 },
-  tableWrap: { background: '#0a2013', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, overflow: 'auto' },
+  statCard: { background: CLAY.surface, borderRadius: 20, padding: 20, boxShadow: CLAY.raisedSm },
+  input: { width: '100%', boxSizing: 'border-box', padding: 12, borderRadius: CLAY.rSm, border: 'none', background: CLAY.bgDeep, color: '#fff', marginBottom: 12, fontSize: 14, boxShadow: CLAY.pressed, outline: 'none' },
+  select: { padding: 12, borderRadius: CLAY.rSm, border: 'none', background: CLAY.bgDeep, color: '#fff', fontSize: 14, boxShadow: CLAY.pressed, outline: 'none' },
+  primaryBtn: { width: '100%', padding: 13, borderRadius: CLAY.rPill, border: 'none', background: CLAY.accentGrad, color: '#1a2e05', fontWeight: 800, cursor: 'pointer', boxShadow: CLAY.btnGreen },
+  primaryBtnSm: { padding: '0 20px', borderRadius: CLAY.rPill, border: 'none', background: CLAY.accentGrad, color: '#1a2e05', fontWeight: 800, cursor: 'pointer', fontSize: 14, boxShadow: CLAY.btnGreen },
+  ghostSm: { background: CLAY.surfaceAlt, border: 'none', color: CLAY.text, borderRadius: CLAY.rPill, padding: '6px 12px', cursor: 'pointer', fontSize: 12, fontWeight: 600, boxShadow: CLAY.raisedSm },
+  tableWrap: { background: CLAY.surface, borderRadius: CLAY.r, overflow: 'auto', boxShadow: CLAY.raisedSm },
   table: { width: '100%', borderCollapse: 'collapse', fontSize: 14 },
-  trHead: { background: 'rgba(255,255,255,0.04)', textAlign: 'left' },
-  th: { padding: '12px 14px', fontWeight: 600, color: '#8fcea8', fontSize: 12, whiteSpace: 'nowrap' },
-  tr: { borderTop: '1px solid rgba(255,255,255,0.06)' },
-  td: { padding: '11px 14px' },
-  overlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 50 },
-  modal: { background: '#0d2318', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 16, padding: 22, width: '100%', maxWidth: 420 },
-  xBtn: { background: 'transparent', border: 'none', color: '#8fcea8', cursor: 'pointer', fontSize: 16 },
+  trHead: { background: 'rgba(0,0,0,0.2)', textAlign: 'left' },
+  th: { padding: '13px 16px', fontWeight: 600, color: CLAY.muted, fontSize: 12, whiteSpace: 'nowrap' },
+  tr: { borderTop: '1px solid rgba(255,255,255,0.04)' },
+  td: { padding: '12px 16px' },
+  overlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20, zIndex: 50 },
+  modal: { background: CLAY.surface, borderRadius: CLAY.r, padding: 24, width: '100%', maxWidth: 420, boxShadow: CLAY.raised },
+  xBtn: { background: 'transparent', border: 'none', color: CLAY.muted, cursor: 'pointer', fontSize: 16 },
 };

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuthStore } from '../store/auth.store';
 import { useMeetingStore } from '../store/meeting.store';
 import { useMeetingRoom, ParticipantInfo } from '../hooks/useMeetingRoom';
+import { CLAY } from '../lib/clay';
 
 const AUDIENCE_RENDER_CAP = 60; // never render thousands of tiles
 const REACTION_EMOJIS = ['👏', '❤️', '😂', '😮', '👍', '🎉'];
@@ -25,8 +26,8 @@ function Tile({
   const speaking = p.isSpeaking && !p.isMuted;
   const showHostControls = isHostView && !p.isLocal && p.role !== 'host';
   return (
-    <div style={{ ...t.tile, borderColor: speaking ? '#a3e635' : 'rgba(255,255,255,0.07)' }}>
-      <div style={{ ...t.avatar, boxShadow: speaking ? '0 0 0 4px rgba(163,230,53,0.35)' : 'none' }}>
+    <div style={{ ...t.tile, boxShadow: speaking ? `0 0 0 3px ${CLAY.accent}, ${CLAY.raisedSm}` : CLAY.raisedSm }}>
+      <div style={{ ...t.avatar, boxShadow: speaking ? '0 0 0 4px rgba(163,230,53,0.4), inset 3px 3px 6px rgba(255,255,255,0.12), inset -4px -4px 8px rgba(0,0,0,0.4)' : 'inset 3px 3px 6px rgba(255,255,255,0.12), inset -4px -4px 8px rgba(0,0,0,0.4)' }}>
         {initials(p.name)}
         {p.role === 'host' && <span style={t.corner}>👑</span>}
         {handRaised && <span style={{ ...t.corner, left: -6, right: 'auto' }}>✋</span>}
@@ -199,13 +200,13 @@ export default function RoomPage() {
             {micEnabled ? '🎙️ Mute' : '🔇 Unmute'}
           </button>
         ) : (
-          <button onClick={() => raiseHand(!handRaised)} style={{ ...r.ctrlBtn, background: handRaised ? '#f59e0b' : '#0a2013', border: handRaised ? 'none' : '1px solid #2a4a35' }}>
+          <button onClick={() => raiseHand(!handRaised)} style={{ ...r.ctrlBtn, background: handRaised ? 'linear-gradient(145deg,#fbbf24,#d97706)' : CLAY.surfaceAlt, color: handRaised ? '#3a2606' : CLAY.text }}>
             {handRaised ? '✋ Lower hand' : '✋ Raise hand'}
           </button>
         )}
 
         <div style={{ position: 'relative' }}>
-          <button onClick={() => setReactOpen((v) => !v)} style={{ ...r.ctrlBtn, background: '#0a2013', border: '1px solid #2a4a35' }}>😀 React</button>
+          <button onClick={() => setReactOpen((v) => !v)} style={{ ...r.ctrlBtn, background: CLAY.surfaceAlt, color: CLAY.text }}>😀 React</button>
           {reactOpen && (
             <div style={r.reactPopover}>
               {REACTION_EMOJIS.map((e) => (
@@ -215,47 +216,47 @@ export default function RoomPage() {
           )}
         </div>
 
-        <button onClick={() => setChatOpen((v) => !v)} style={{ ...r.ctrlBtn, background: '#0a2013', border: '1px solid #2a4a35' }}>
+        <button onClick={() => setChatOpen((v) => !v)} style={{ ...r.ctrlBtn, background: CLAY.surfaceAlt, color: CLAY.text }}>
           💬 Chat{messages.length > 0 ? ` (${messages.length})` : ''}
         </button>
 
-        {isHost && <button onClick={handleEnd} style={{ ...r.ctrlBtn, background: '#7f1d1d' }}>End for all</button>}
-        <button onClick={handleLeave} style={{ ...r.ctrlBtn, background: '#ef4444' }}>Leave</button>
+        {isHost && <button onClick={handleEnd} style={{ ...r.ctrlBtn, background: 'linear-gradient(145deg,#b91c1c,#7f1d1d)' }}>End for all</button>}
+        <button onClick={handleLeave} style={{ ...r.ctrlBtn, background: CLAY.dangerGrad }}>Leave</button>
       </footer>
     </div>
   );
 }
 
 const r: Record<string, React.CSSProperties> = {
-  page: { height: '100dvh', background: '#05140d', color: '#f4fbe9', fontFamily: 'system-ui', display: 'flex', flexDirection: 'column' },
-  center: { minHeight: '100dvh', background: '#05140d', color: '#f4fbe9', fontFamily: 'system-ui', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' },
-  header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 24px', borderBottom: '1px solid rgba(255,255,255,0.06)' },
-  copyBtn: { background: 'transparent', border: '1px solid #2a4a35', color: '#c5e88a', borderRadius: 999, padding: '7px 14px', cursor: 'pointer', fontSize: 13 },
+  page: { height: '100dvh', background: CLAY.bg, color: CLAY.text, fontFamily: 'system-ui', display: 'flex', flexDirection: 'column' },
+  center: { minHeight: '100dvh', background: CLAY.bg, color: CLAY.text, fontFamily: 'system-ui', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' },
+  header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px' },
+  copyBtn: { background: CLAY.surfaceAlt, border: 'none', color: CLAY.text, borderRadius: 999, padding: '9px 16px', cursor: 'pointer', fontSize: 13, fontWeight: 600, boxShadow: CLAY.raisedSm },
   body: { flex: 1, overflowY: 'auto', padding: 24 },
-  sectionLabel: { color: '#6f9c81', fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 14 },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(130px,1fr))', gap: 14 },
-  controls: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, padding: 16, borderTop: '1px solid rgba(255,255,255,0.06)', flexWrap: 'wrap' },
-  ctrlBtn: { border: 'none', color: '#fff', fontWeight: 700, borderRadius: 999, padding: '12px 22px', cursor: 'pointer', fontSize: 14 },
-  ghost: { marginTop: 16, background: 'transparent', border: '1px solid #2a4a35', color: '#c5e88a', borderRadius: 999, padding: '10px 20px', cursor: 'pointer' },
-  chatPanel: { width: 320, borderLeft: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', background: '#071a10' },
-  chatHeader: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' },
-  xBtn: { background: 'transparent', border: 'none', color: '#8fcea8', cursor: 'pointer', fontSize: 16 },
+  sectionLabel: { color: CLAY.faint, fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 16 },
+  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(140px,1fr))', gap: 18 },
+  controls: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, padding: 18, flexWrap: 'wrap' },
+  ctrlBtn: { border: 'none', color: '#fff', fontWeight: 800, borderRadius: 999, padding: '13px 24px', cursor: 'pointer', fontSize: 14, boxShadow: CLAY.raisedSm },
+  ghost: { marginTop: 16, background: CLAY.surfaceAlt, border: 'none', color: CLAY.text, borderRadius: 999, padding: '11px 22px', cursor: 'pointer', fontWeight: 600, boxShadow: CLAY.raisedSm },
+  chatPanel: { width: 330, display: 'flex', flexDirection: 'column', background: CLAY.surface, margin: 12, borderRadius: CLAY.r, boxShadow: CLAY.raised, overflow: 'hidden' },
+  chatHeader: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 18px' },
+  xBtn: { background: 'transparent', border: 'none', color: CLAY.muted, cursor: 'pointer', fontSize: 16 },
   chatBody: { flex: 1, overflowY: 'auto', padding: 16 },
-  bubble: { display: 'inline-block', padding: '8px 12px', borderRadius: 12, fontSize: 14, maxWidth: 220, wordBreak: 'break-word' },
-  chatForm: { display: 'flex', gap: 8, padding: 12, borderTop: '1px solid rgba(255,255,255,0.06)' },
-  chatInput: { flex: 1, background: '#05140d', border: '1px solid #2a4a35', borderRadius: 10, color: '#fff', padding: 10, outline: 'none' },
-  sendBtn: { background: 'linear-gradient(150deg,#bef264,#84cc16)', color: '#1a2e05', fontWeight: 700, border: 'none', borderRadius: 10, padding: '0 16px', cursor: 'pointer' },
-  reactionLayer: { position: 'fixed', bottom: 90, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 10, pointerEvents: 'none', zIndex: 40 },
-  floatReaction: { fontSize: 34, animation: 'none' },
-  reactPopover: { position: 'absolute', bottom: 56, left: '50%', transform: 'translateX(-50%)', background: '#0d2318', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: 8, display: 'flex', gap: 4, boxShadow: '0 12px 40px rgba(0,0,0,0.5)' },
-  reactBtn: { background: 'transparent', border: 'none', fontSize: 22, cursor: 'pointer', padding: 6, borderRadius: 8 },
+  bubble: { display: 'inline-block', padding: '9px 13px', borderRadius: 16, fontSize: 14, maxWidth: 220, wordBreak: 'break-word', boxShadow: CLAY.raisedSm },
+  chatForm: { display: 'flex', gap: 8, padding: 14 },
+  chatInput: { flex: 1, background: CLAY.bgDeep, border: 'none', borderRadius: 14, color: '#fff', padding: 12, outline: 'none', boxShadow: CLAY.pressed },
+  sendBtn: { background: CLAY.accentGrad, color: '#1a2e05', fontWeight: 800, border: 'none', borderRadius: 14, padding: '0 18px', cursor: 'pointer', boxShadow: CLAY.btnGreen },
+  reactionLayer: { position: 'fixed', bottom: 100, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 10, pointerEvents: 'none', zIndex: 40 },
+  floatReaction: { fontSize: 38 },
+  reactPopover: { position: 'absolute', bottom: 62, left: '50%', transform: 'translateX(-50%)', background: CLAY.surface, borderRadius: 20, padding: 10, display: 'flex', gap: 4, boxShadow: CLAY.raised },
+  reactBtn: { background: 'transparent', border: 'none', fontSize: 24, cursor: 'pointer', padding: 6, borderRadius: 12 },
 };
 
 const t: Record<string, React.CSSProperties> = {
-  tile: { background: '#0a2013', border: '2px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, transition: 'border-color 0.12s' },
-  avatar: { position: 'relative', width: 60, height: 60, borderRadius: '50%', background: 'linear-gradient(150deg,#1f5c3d,#0c2e1d)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 800, transition: 'box-shadow 0.12s' },
+  tile: { background: CLAY.surface, borderRadius: 24, padding: 18, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, boxShadow: CLAY.raisedSm, transition: 'box-shadow 0.15s' },
+  avatar: { position: 'relative', width: 64, height: 64, borderRadius: '50%', background: 'linear-gradient(145deg,#2a7a52,#0c2e1d)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 25, fontWeight: 800, transition: 'box-shadow 0.12s', boxShadow: 'inset 3px 3px 6px rgba(255,255,255,0.12), inset -4px -4px 8px rgba(0,0,0,0.4)' },
   corner: { position: 'absolute', top: -8, right: -6, fontSize: 16 },
   nameRow: { display: 'flex', alignItems: 'center', gap: 6, maxWidth: '100%', fontSize: 13, fontWeight: 600 },
-  hostCtrls: { display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 4, marginTop: 2 },
-  hc: { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#c5e88a', borderRadius: 999, padding: '3px 9px', cursor: 'pointer', fontSize: 11 },
+  hostCtrls: { display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 5, marginTop: 2 },
+  hc: { background: CLAY.surfaceAlt, border: 'none', color: CLAY.muted, borderRadius: 999, padding: '4px 10px', cursor: 'pointer', fontSize: 11, boxShadow: CLAY.raisedSm },
 };

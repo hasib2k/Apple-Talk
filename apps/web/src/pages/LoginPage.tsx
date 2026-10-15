@@ -161,7 +161,8 @@ export default function LoginPage() {
         <div className="w-full max-w-xs flex flex-col gap-3">
           <button
             onClick={handleGoogle}
-            className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 active:bg-gray-100 text-gray-800 font-semibold px-5 py-3.5 rounded-2xl text-sm transition-all shadow-lg"
+            className="flex items-center justify-center gap-3 bg-white text-gray-800 font-semibold px-5 py-4 text-sm transition-transform active:scale-[0.98]"
+            style={{ borderRadius: 22, boxShadow: '6px 6px 16px rgba(0,0,0,0.35), -4px -4px 10px rgba(255,255,255,0.06), inset 2px 2px 5px rgba(255,255,255,0.9), inset -4px -4px 9px rgba(0,0,0,0.12)' }}
           >
             <GoogleIcon />
             Continue with Google
@@ -170,7 +171,8 @@ export default function LoginPage() {
           <button
             onClick={handleAnonymous}
             disabled={loadingAnon}
-            className="flex items-center justify-center gap-3 bg-leaf-700 hover:bg-leaf-600 active:bg-leaf-600 border border-leaf-600 text-white font-semibold px-5 py-3.5 rounded-2xl text-sm transition-all disabled:opacity-60"
+            className="flex items-center justify-center gap-3 text-white font-semibold px-5 py-4 text-sm transition-transform active:scale-[0.98] disabled:opacity-60"
+            style={{ borderRadius: 22, background: 'linear-gradient(145deg,#1f6a44,#0c2e1d)', boxShadow: '6px 6px 16px rgba(0,0,0,0.4), -4px -4px 10px rgba(255,255,255,0.04), inset 2px 2px 5px rgba(255,255,255,0.08), inset -4px -4px 9px rgba(0,0,0,0.4)' }}
           >
             {loadingAnon ? (
               <>
